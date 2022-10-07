@@ -13,7 +13,7 @@ typedef struct GSTR
 } GSTR;
 PGSTRV NewGSTR_Empty()
 {
-  PGSTRV obj =(PGSTRV) malloc(sizeof(GSTR));
+  PGSTRV obj = (PGSTRV)malloc(sizeof(GSTR));
   if (obj)
   {
     obj->data = 0;
@@ -34,11 +34,11 @@ PGSTRV NewGSTR_ByStr(const char *src)
 }
 PGSTRV NewGSTR_Blank(int size)
 {
-  PGSTRV obj = malloc(sizeof(GSTR));
+  PGSTRV obj = (PGSTRV)malloc(sizeof(GSTR));
   if (obj)
   {
     // try to allocate buffer
-    obj->data = calloc(1, size + 1);
+    obj->data = (char *)calloc(1, size + 1);
     if (obj->data)
     {
       // allocate successful
@@ -58,7 +58,7 @@ void GSTRDestroy(PGSTRV pthis)
   if (pthis->data)
   {
     free(pthis->data);
-    pthis->data = 0;
+    pthis->length = 0;
   }
   free(pthis);
 }
@@ -74,7 +74,7 @@ void GSTRImport(PGSTRV pthis, const char *src)
     free(pthis->data); // not null now,
     pthis->data = 0;
   }
-  pthis->data = calloc(1, n + 1);
+  pthis->data = (char *)calloc(1, n + 1);
   pthis->length = n;
   if (pthis->data)
   {
@@ -137,7 +137,7 @@ void GSTRCpy(PGSTRV d, PGSTRC s)
     d->data = 0;
   }
   d->length = s->length;
-  d->data = calloc(1, d->length);
+  d->data = (char *)calloc(1, d->length);
   if (d->data)
   {
     memcpy(d->data, s->data, d->length);
@@ -151,7 +151,7 @@ void GSTRCat(PGSTRV d, PGSTRC s)
   if (d->data)
   {
     int len = s->length + d->length + 1;
-    char *tmp = calloc(1, len);
+    char *tmp = (char *)calloc(1, len);
     if (tmp)
     {
       strcpy(tmp, d->data);
@@ -171,7 +171,7 @@ void GSTRIns(PGSTRV d, PGSTRC s, int pos)
 #ifdef _DEBUG
   assert(s && (s->data) && d && (d->data));
 #endif // _DEBUG
-  char *tmp = calloc(1, 1 + s->length + d->length);
+  char *tmp = (char *)calloc(1, 1 + s->length + d->length);
   if (tmp)
   {
     strncpy(tmp, d->data, pos); //[0,...d_pos-1] [s0,...s[m-1]]
@@ -187,7 +187,7 @@ void GSTRDel(PGSTRV d, int pos, int len)
 #ifdef _DEBUG
   assert(d && (d->data) && (pos >= 0) && (len >= 0));
 #endif // _DEBUG
-  char *tmp = calloc(1, 1 + d->length - len);
+  char *tmp = (char *)calloc(1, 1 + d->length - len);
   if (tmp)
   {
     strncpy(tmp, d->data, pos); // bugs are possible
