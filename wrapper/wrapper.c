@@ -13,7 +13,7 @@ typedef struct GSTR
 } GSTR;
 PGSTRV NewGSTR_Empty()
 {
-  PGSTRV obj = malloc(sizeof(GSTR));
+  PGSTRV obj =(PGSTRV) malloc(sizeof(GSTR));
   if (obj)
   {
     obj->data = 0;
@@ -92,7 +92,7 @@ void GSTRExport(PGSTRC pthis, char *dst)
 // read
 int GSTRLen(PGSTRC s)
 {
-  return strlen(s->length);
+  return s->length;
 }
 int GSTRCmp(PGSTRC a, PGSTRC b)
 {
