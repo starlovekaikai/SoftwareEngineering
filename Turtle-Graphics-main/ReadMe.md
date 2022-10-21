@@ -3,6 +3,7 @@
 The user can compile the program with the interactive driver using the following command:
 
 gcc -g -Wall -Werror Part2_interactive.c -lm -o Part2_interactive
+
 这个小程序是我从github上clone过来的，具体使用方法如下所示：
 
 1、将整个文件夹复制至本地能运行C程序的路径中，例如我使用的是vscode，则复制到vscode对应文件夹内，如果使用的是Visual Studio的编译工具，可新建一个项目repository，将本目录下全部的源文件.c导入至新建文件中；
