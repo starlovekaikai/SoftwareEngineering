@@ -14,7 +14,7 @@
 #endif
 /*---------------------------------------------------------------------------*/
 
-/**
+/*
  * This struct contains one node of the linked list, which represents a single
  * command. It's field should include:
  *
@@ -24,13 +24,13 @@
  *            args including points coordinates, length and radius.
  *
  *
- ****/
+ */
 typedef struct cmd_node
 {
   char name[10];
-  void *data;
+  data_buff *data;
 } cmd_node;
-/**
+/*
  * This struct contains a buffer for 2 dimension data, namely vector data.
  * It's field should include:
  *
@@ -42,7 +42,7 @@ typedef struct cmd_node
  *              a same one or not.
  *
  *
- ****/
+ */
 typedef struct data_buff
 {
   int x_val;
@@ -50,4 +50,5 @@ typedef struct data_buff
   struct data_buff *next;
 } data_buff;
 
-cmd_node new_cmd_node()
+cmd_node new_cmd_node(char cmd[10],data_buff buf);
+
