@@ -3,6 +3,9 @@
  *from commandline or from a specific command file.
  *
  */
+#include "wrapper.h"
+#include <stdio.h>
+#include <stdlib.h>
 #if include _SRC_COMMAND_
 #define _SRC_COMMAND_
 #endif
@@ -18,17 +21,20 @@
  * This struct contains one node of the linked list, which represents a single
  * command. It's field should include:
  *
- *  - name   : A char array of size 10 holding the command name
+ *  - name   : A char array of size 10 holding the command name.
  *
- *  - data  : An pointer to a dynamic node buffer, where stores all the input
+ *  - data   : An pointer to a dynamic node buffer, where stores all the input
  *            args including points coordinates, length and radius.
- *
+ *  - next   : A pointer to a struct of the same type, this is used for the 
+ *            linked list.
  *
  */
 typedef struct cmd_node
 {
   char name[10];
   data_buff *data;
+  struct cmd_node *next;
+  
 } cmd_node;
 /*
  * This struct contains a buffer for 2 dimension data, namely vector data.
@@ -50,5 +56,5 @@ typedef struct data_buff
   struct data_buff *next;
 } data_buff;
 
-cmd_node new_cmd_node(char cmd[10],data_buff buf);
+cmd_node *new_cmd_node(char cmd[10],data_buff buf);
 
