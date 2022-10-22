@@ -43,26 +43,11 @@ typedef struct cmd_node
  *
  *
  ****/
-typedef struct vector_buff
+typedef struct data_buff
 {
   int x_val;
   int y_val;
-  void *next;
-} vector_buff;
-/**
- * This struct contains a buffer for 2 dimension data, namely vector data.
- * It's field should include:
- *
- *  - val   : A integar value for storing data.
- *
- *  - next  : A pointer to next potential data structure, it could be
- *              a same one or not.
- *
- *
- ****/
-typedef struct scalar_buff
-{
-  int val;
-  void *next;
+  struct data_buff *next;
+} data_buff;
 
-} scalar_buff;
+cmd_node new_cmd_node()
