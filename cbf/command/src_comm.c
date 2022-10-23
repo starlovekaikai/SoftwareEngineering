@@ -78,4 +78,9 @@ cmd_node *load_cmd_file(char *filename)
 }
 cmd_type new_cmd_list()
 {
+  cmd_node *new_node = (cmd_node *)calloc(1, sizeof(cmd_node));
+  new_node->name="\0";
+  new_node->data = NULL;
+  new_node->next = NULL;
+  return
 }
