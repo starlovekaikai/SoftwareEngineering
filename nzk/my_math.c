@@ -16,7 +16,7 @@
  */
 int line_equ(ui_point point, int len, vector uni_vec, int x_val)
 {
-  //UI_SIZE_X
-  int iter;
-  for(iter=0;iter<SIZEX)
+  //其实这个长度len是没有用的，因为这里不需要它，只是保留着
+  float dx,dy;
+  
 }
