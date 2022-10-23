@@ -5,6 +5,7 @@
 #define UI_SIZE_X 512
 #define UI_SIZE_Y 512
 #endif
+#define ZERO 1e-6
 //绘图坐标系下的点，坐标值的单位是像素pixel
 typedef struct ui_point
 {
@@ -21,8 +22,8 @@ typedef struct user_point
 typedef struct vector
 {
   //两个坐标轴上的分量component
-  int x_com;
-  int y_com;
+  float x_com;
+  float y_com;
 } vector;
 //已知一个图形点，一个长度和一个方向矢量，求一个直线方程
 int line_equ(ui_point point, int len, vector uni_vec, int x_val);
