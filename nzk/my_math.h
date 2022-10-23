@@ -1,8 +1,10 @@
 #ifndef _BASE_LIB_
 #define _BASE_LIB_
 #endif
+#ifndef UI_SIZE_X
 #define UI_SIZE_X 512
 #define UI_SIZE_Y 512
+#endif
 //绘图坐标系下的点，坐标值的单位是像素pixel
 typedef struct ui_point
 {
