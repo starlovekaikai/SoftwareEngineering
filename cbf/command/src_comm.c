@@ -31,8 +31,18 @@ cmd_node *new_cmd_node(char cmd[10], data_buff *buf)
     return NULL;
   }
 }
-/*
+/* This function reads from a given .txt file, which contains several
+ * valid commands. It could transcribe these commands into specific
+ * data structure, which will have a command name "cmd" and a node
+ * list "buf" to store all the data provided by the user.
  *
- *
+ * - filename : the relative or absolute path of the txt file.
+ * 
+ * - Output   : <cmd_node *> type, a pointer to a data structure typed 
+ *              in cmd_node.
  */
-void read_cmd_file(char *filename);
+cmd_node *load_cmd_file(char *filename){
+  printf("Begin loading from \"%s\".",filename);
+  
+  printf("Success in loading!");
+}
