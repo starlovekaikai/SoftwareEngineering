@@ -71,5 +71,10 @@ typedef enum command
 cmd_node *new_cmd_node(char cmd[10], data_buff buf);
 
 //从文件读取命令的，生成命令名和命令数据
+void read_cmd_file(char *filename);
+//从键盘读取命令的
+void read_cmd_std();
 //从命令名和命令数据生成特征点数据结构，包括一个
+cmd_node *new_cmd_list_add(cmd_node *cmd_list, cmd_node *new_item);
 //根据命令名，将其定义为枚举变量
+enum enum_cmd_name(char cmd[10]);
