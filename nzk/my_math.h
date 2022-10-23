@@ -25,9 +25,20 @@ typedef struct vector
   float x_com;
   float y_com;
 } vector;
+//存放全部形状的数据
+typedef struct shape
+{
+  //某一形状需要的点数据
+  ui_point point;
+  //某一形状需要的向量，可以是单位向量也可以不是
+  vector vec;
+  //某一形状需要的标量数据，如半径、长度或者其他什么的。
+  int val_1,val_2;
+}shape;
+
 //已知一个图形点，一个长度和一个方向矢量，求一个直线方程
-int line_equ(ui_point point, int len, vector uni_vec, int x_val);
+int line_equ(shape line, int x_val);
 //已知圆心图形点，一个半径长度和一个方向矢量（这个参数先不管，到时候如果要画不完整的圆弧再用），求一个圆的方程
-int circle_equ(ui_point center, int radius, vector uni_vec, int x_val);
+int circle_equ(shape circle, int x_val);
 //已知圆心图形点，一个半径长度和一个初始方向矢量，求一个正多边形的方程？
-int polygon_equ(ui_point center, int radius, vector uni_vec, int x_val);
+int polygon_equ(shape polygon, int x_val);

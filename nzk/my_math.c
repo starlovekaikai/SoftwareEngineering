@@ -1,5 +1,4 @@
 #include "my_math.h"
-#include "src_comm.h"
 /*
  * This function uses a ui_point, a length value
  * and a unit vector to form a line eqution and
@@ -14,9 +13,10 @@
  *  Output   : the y axe coordinate of input
  *             point
  */
-int line_equ(ui_point point, int len, vector uni_vec, int x_val)
+int line_equ(shape line, int x_val)
 {
-  //其实这个长度len是没有用的，因为这里不需要它，只是保留着
+  ui_point point = line.point;
+  vector uni_vec = line.vec;
   float dx, dy;
   dx = x_val - point.x_val;
   // zero是非常小的一个数，防止除数为0的
@@ -65,4 +65,5 @@ int circle_equ(ui_point center, int radius, vector uni_vec, int x_val)
 //只考虑为y值为正的情况，为负另一半取反就可以生成了
 int polygon_equ(ui_point center, int radius, vector uni_vec, int x_val)
 {
+  float dx, dy;
 }
