@@ -81,4 +81,4 @@ cmd_type enum_cmd_name(char cmd[10]);
 //删除一个已经连接好的命令列表
 void del_cmd_list(cmd_node *cmd_list);
 //新建一个命令列表
-cmd_type enum_cmd_name(char cmd[10]);
+cmd_type new_cmd_list();

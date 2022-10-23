@@ -37,11 +37,12 @@ cmd_node *new_cmd_node(char cmd[10], data_buff *buf)
  * list "buf" to store all the data provided by the user.
  *
  * - filename : the relative or absolute path of the txt file.
- * 
- * - Output   : <cmd_node *> type, a pointer to a data structure typed 
+ *
+ * - Output   : <cmd_node *> type, a pointer to a data structure typed
  *              in cmd_node.
  */
-cmd_node *load_cmd_file(char *filename){
+cmd_node *load_cmd_file(char *filename)
+{
   // printf("Begin loading from \"%s\".",filename);
   //  CmdNode *head = NULL;
   // CmdNode *forN = NULL;
@@ -74,4 +75,7 @@ cmd_node *load_cmd_file(char *filename){
   // fclose(f);
   // return head;
   // printf("Success in loading!");
+}
+cmd_type new_cmd_list()
+{
 }
