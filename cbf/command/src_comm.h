@@ -11,9 +11,9 @@
 #endif
 // This lets the driver code override the image size if it needs to. Make sure
 // you don't hard-code these values anywhere!
-#ifndef SIZEX
-#define SIZEX 512
-#define SIZEY 512
+#ifndef UI_SIZE_X
+#define UI_SIZE_X 512
+#define UI_SIZE_Y 512
 #endif
 /*---------------------------------------------------------------------------*/
 
