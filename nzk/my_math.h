@@ -43,7 +43,8 @@ typedef struct shape
    * int* radius = (int *)calloc(1,sizeof(int));
    * *radius = 50;//需要或已知的半径
    * circle.val_1 = radius;//让不完全定义的指针强制类型为int并将其指向的内容初始化为radius指针的值，即50
-   * //调用不完全定义类型时，需要
+   * //调用不完全定义类型时，需要如下使用其值：
+   * *(int*)circle.val_1，这种形式可以进行运算之类的。
    * //这里就把val_1强制转化成了int类型的数据，并求取指向的内容（即括号的*），得到了相应的半径数据
    * 详细的例子见test.c
    */
