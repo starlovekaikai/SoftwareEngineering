@@ -42,7 +42,36 @@ cmd_node *new_cmd_node(char cmd[10], data_buff *buf)
  *              in cmd_node.
  */
 cmd_node *load_cmd_file(char *filename){
-  printf("Begin loading from \"%s\".",filename);
-  
-  printf("Success in loading!");
+  // printf("Begin loading from \"%s\".",filename);
+  //  CmdNode *head = NULL;
+  // CmdNode *forN = NULL;
+  // CmdNode *temp = NULL;
+
+  // char buffer[1024];
+  // char *buf;
+
+  // FILE *f = fopen(fileName, "r");
+  // while (fgets(&buffer[0], 1024, f) != NULL) {
+  //   temp = NULL;
+  //   buf = &buffer[0];
+
+  //   if (strncmp(buf, "  ", 2) && forN != NULL) forN = NULL;
+  //   if (forN != NULL) buf = buf + 2;  // Skip over indents
+
+  //   if      (!strncmp(buf, "backward", 8)) temp = newCmdNode("backward", atoi(&buf[9]));
+  //   else if (!strncmp(buf, "forward", 7)) temp = newCmdNode("forward", atoi(&buf[8]));
+  //   else if (!strncmp(buf, "pendown", 7)) temp = newCmdNode("pendown", 0);
+  //   else if (!strncmp(buf, "colour", 6)) temp = newCmdNode("colour", atoi(&buf[7]));
+  //   else if (!strncmp(buf, "penup", 5)) temp = newCmdNode("penup", 0);
+  //   else if (!strncmp(buf, "right", 5)) temp = newCmdNode("right", 0);
+  //   else if (!strncmp(buf, "left", 4)) temp = newCmdNode("left", 0);
+  //   if (!strncmp(buf, "loop", 4)) forN = newCmdNode("loop", atoi(&buf[5]));
+
+  //   if (temp != NULL && forN != NULL) insertCommandLoop(forN, temp);
+  //   else if (temp != NULL) head = insertCommand(head, temp);
+  //   else if (forN != NULL) head = insertCommand(head, forN);
+  // }
+  // fclose(f);
+  // return head;
+  // printf("Success in loading!");
 }
