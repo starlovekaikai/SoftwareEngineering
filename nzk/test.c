@@ -16,5 +16,6 @@ int main()
   *temp_z = 'r';
   sss.y = temp_y;
   sss.z = temp_z;
+  (*(int*)sss.y)+=10;
   printf("x:%d,y:%d,z:%c", sss.x, *(int *)sss.y, *(char *)sss.z);
 }
