@@ -29,6 +29,7 @@ int line_equ(shape line, int x_val)
     dy = dx * uni_vec.y_com / uni_vec.x_com;
   }
   return (int)point.y_val + dy;
+
 }
 /*
  * This function uses a ui_point, a length value
