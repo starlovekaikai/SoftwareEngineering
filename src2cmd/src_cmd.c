@@ -1,4 +1,4 @@
-#include "src_comm.h"
+#include "src_cmd.h"
 /**
  * This function allocates a new cmd_node struct and initializes it's values
  * based on the input paramaters given. The next pointer is always
