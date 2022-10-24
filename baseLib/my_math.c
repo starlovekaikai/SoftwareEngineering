@@ -29,7 +29,6 @@ int line_equ(shape line, int x_val)
     dy = dx * uni_vec.y_com / uni_vec.x_com;
   }
   return (int)point.y_val + dy;
-
 }
 /*
  * This function uses a ui_point, a length value
@@ -48,6 +47,18 @@ int line_equ(shape line, int x_val)
 //只考虑为y值为正的情况，为负另一半取反就可以生成了
 int circle_equ(ui_point center, int radius, vector uni_vec, int x_val)
 {
+}
+//lyx尝试写的
+int circle_equ(shape circle, int x_val)
+{
+    ui_point point = circle.point;
+    int* temp_radius = (int*)calloc(1, sizeof(int));
+    circle.val_1 = temp_radius;
+
+    float dx, dy;
+    dx = x_val - point.x_val;
+    dy = sqrt((*(int*)circle.val_1) * (*(int*)circle.val_1) - dx * dx);
+    return (int)circle.point.y_val + dy;
 }
 /*
  * This function uses a ui_point, a length value
