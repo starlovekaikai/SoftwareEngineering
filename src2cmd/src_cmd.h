@@ -33,7 +33,7 @@
  */
 typedef struct cmd_node
 {
-  char name[10];
+  short cmd_type;
   data_buff *data;
   struct cmd_node *next;
 
@@ -42,9 +42,7 @@ typedef struct cmd_node
  * This struct contains a buffer for 2 dimension data, namely vector data.
  * It's field should include:
  *
- *  - x_val   : A integar value for its first dimension.
- *
- *  - y_val   : A integar value for its second dimension.
+ *  - x_val   : A integar value.
  *
  *  - next    : A pointer to next potential data structure, it could be
  *              a same one or not.
@@ -53,8 +51,7 @@ typedef struct cmd_node
  */
 typedef struct data_buff
 {
-  int x_val;
-  int y_val;
+  int val;
   struct data_buff *next;
 } data_buff;
 /*
@@ -69,6 +66,8 @@ typedef enum cmd_type
   CIRCLE,
   RECTANGLE,
   POLYGON,
+  GROUP_TYPE,//组合体，
+  INVISIBLE//不可见的，用于功能控制
 } cmd_type;
 
 cmd_node *new_cmd_node(char cmd[10], data_buff buf);

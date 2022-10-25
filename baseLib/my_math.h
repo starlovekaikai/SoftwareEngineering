@@ -57,3 +57,7 @@ int line_equ(shape line, int x_val);
 int circle_equ(shape circle, int x_val);
 //已知圆心图形点，一个半径长度和一个初始方向矢量，求一个正多边形的方程？
 int polygon_equ(shape polygon, int x_val);
+//求坐标系的旋转变换
+//求坐标系的平移变换
+//求坐标系的伸缩变换
+

@@ -21,7 +21,7 @@ cmd_node *new_cmd_node(char cmd[10], data_buff *buf)
   if ((GSTRCmp(cmd, "points") == 0) || (GSTRCmp(cmd, "line") == 0) || (GSTRCmp(cmd, "circle") == 0) || (GSTRCmp(cmd, "polygon") == 0)) /*这里或许需要修改一下，我已经使用上了枚举的方法*/
   {
     cmd_node *new_node = (cmd_node *)calloc(1, sizeof(cmd_node));
-    GSTRCpy(new_node->name, cmd);
+    GSTRCpy(new_node->cmd_type, cmd);
     new_node->data = buf;
     new_node->next = NULL;
     return new_node;
@@ -80,7 +80,7 @@ cmd_node *load_cmd_file(char *filename)
 cmd_node *new_cmd_list()
 {
   cmd_node *new_node = (cmd_node *)calloc(1, sizeof(cmd_node));
-  new_node->name[0] = '\0';
+  new_node->cmd_type = NOT_CMD;
   new_node->data = NULL;
   new_node->next = NULL;
   return new_node;
@@ -107,13 +107,31 @@ PGSTRV read_cmd_std() // 得到gstr类型的一个变量指针
 }
 PGSTRV read_cmd_file(file_name) // 得到gstr类型的一个变量指针
 {
-  char *buffer=(char*)calloc(MAX_CMD_LEN,sizeof(char));
+  char *buffer = (char *)calloc(MAX_CMD_LEN, sizeof(char));
   //在使用之前最好加一个Printf请求用户输入命令
   FILE *file = fopen(file_name, "r");
-  while (fgets(buffer, MAX_CMD_LEN, file) != NULL) {//一行一行地读取，直到读取到文件末尾
-
+  while (fgets(buffer, MAX_CMD_LEN, file) != NULL)
+  { //一行一行地读取，直到读取到文件末尾
+    PGSTRV = NewGSTR_ByStr(buffer);
+    /*
+     *
+     * 这里将对读取得到的gstr进行处理，得到一个命令数据体，包含全部规范化数据的
+     * 规范化是指，对于不同格式表达的同一形状，如用半径和用直径表达的圆，都应当对应于同一个数据形式
+     * 这里应该进行计算并作初步的转化
+     */
+    //清空内存
+    memset(buffer, MAX_CMD_LEN, sizeof(char));
   }
   fclose(file);
   return head;
 }
-void gstr_cmd()
+void gstr_normalize(PGSTRC raw_gstr) //已知是一个gstr字符串，需要转换成一个对应名字枚举变量，对应数据的数据结构体
+{                                    /* 这里是转化的第一步，将命令规范化，
+                                      * 去掉多余的空格、查找命令是否符合要求，去掉行末多余的标点符号
+                                      *
+                                      *
+                                      */
+  PGSTRV temp_gstr = (PGSTRV)calloc(1, sizeof(raw_gstr));
+  GSTRCpy(temp_gstr, raw_gstr);
+  
+}
