@@ -1,5 +1,8 @@
 #include "src_cmd.h"
 #include "wrapper.h"
+#include "my_math.h"
+#include <stdlib.h>
+#include <stdio.h>
 /**
  * This function allocates a new cmd_node struct and initializes it's values
  * based on the input paramaters given. The next pointer is always
@@ -133,5 +136,9 @@ void gstr_normalize(PGSTRC raw_gstr) //已知是一个gstr字符串，需要转�
                                       */
   PGSTRV temp_gstr = (PGSTRV)calloc(1, sizeof(raw_gstr));
   GSTRCpy(temp_gstr, raw_gstr);
-  
+  int ind;
+  while ((ind = GSTRFindChr(temp_gstr, ' ')) != -1)
+  {
+    GSTRDel(temp_gstr, ind,GSTRLen())
+  }
 }

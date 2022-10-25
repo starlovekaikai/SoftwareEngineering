@@ -3,9 +3,6 @@
  *from commandline or from a specific command file.
  *
  */
-#include "wrapper.h"
-#include <stdio.h>
-#include <stdlib.h>
 #if include _SRC_COMMAND_
 #define _SRC_COMMAND_
 #endif
@@ -18,7 +15,6 @@
 // The biggest size of certain input command with its argments.
 #define MAX_CMD_LEN 40
 /*---------------------------------------------------------------------------*/
-#include "my_math.h"
 /*
  * This struct contains one node of the linked list, which represents a single
  * command. It's field should include:

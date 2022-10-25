@@ -1,8 +1,10 @@
 #include "wrapper.h"
+#include <stdlib.h>
+#include <string.h>
+#include <assert.h>
 #ifdef WIN32
 #pragma warning(disable : 4996)
 #endif // WIN32
-
 typedef struct GSTR
 {
   int length;
@@ -78,7 +80,7 @@ void GSTRImport(PGSTRV pthis, const char *src)
     memcpy(pthis->data, src, n);
   }
 }
-void GSTRExport(PGSTRC pthis, char *dst)//需要多一步把末尾置为\0
+void GSTRExport(PGSTRC pthis, char *dst) //需要多一步把末尾置为\0
 {
 #ifdef _DEBUG
   assert(pthis);
@@ -91,7 +93,7 @@ int GSTRLen(PGSTRC s)
 {
   return s->length;
 }
-int GSTRCmp(PGSTRC a, PGSTRC b)//比较不全面，还需要比较length，再使用memcmp比较内存数据
+int GSTRCmp(PGSTRC a, PGSTRC b) //比较不全面，还需要比较length，再使用memcmp比较内存数据
 {
   return strcmp(a->data, b->data);
 }
