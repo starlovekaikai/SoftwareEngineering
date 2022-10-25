@@ -134,6 +134,18 @@ PGSTRV read_cmd_file(file_name) // 得到gstr类型的一个变量指针
      * 规范化是指，对于不同格式表达的同一形状，如用半径和用直径表达的圆，都应当对应于同一个数据形式
      * 这里应该进行计算并作初步的转化
      */
+
+    PGSTRV temp_data = NewGSTR_Empty();
+    cmd_type c_t = NOT_CMD;
+    if ((c_t = gstr_normalize(temp_gstr, temp_data)) != NOT_CMD)
+    {
+      //判断括号匹配，如果匹配
+      //进行数据提取
+    }
+    else
+    {
+      printf("Sorry!The input command is not valid, please check it carefully.");
+    }
     //清空内存
     memset(buffer, MAX_CMD_LEN, sizeof(char));
   }
@@ -143,7 +155,8 @@ PGSTRV read_cmd_file(file_name) // 得到gstr类型的一个变量指针
 }
 //已知是一个gstr字符串，需要转换成一个对应名字枚举变量，对应数据的数据结构体
 cmd_type gstr_normalize(PGSTRC raw_gstr, PGSTRV norm_data)
-{ /* 这里是转化的第一步，将命令规范化，
+{ /*
+   * 这里是转化的第一步，将命令规范化，
    * 去掉多余的空格、查找命令是否符合要求，去掉行末多余的标点符号
    * 返回相应的命令枚举值；
    *
@@ -179,10 +192,14 @@ cmd_type gstr_normalize(PGSTRC raw_gstr, PGSTRV norm_data)
   }
   else
   {
-    printf("Sorry!The input command is not valid, please check it carefully.");
     return NOT_CMD;
   }
+  /*判断括号是否匹配*/
+
   /*还需要进一步读取数据*/
+}
+short data_match(PGSTRC data)
+{
 }
 cmd_type type_of_cmd(PGSTRC cmd)
 {
