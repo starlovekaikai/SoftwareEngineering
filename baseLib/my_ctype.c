@@ -69,7 +69,19 @@ char upper_2_lower(char c)
     return '\0';
   }
 }
-char is_valid_char(char c){
+short is_valid_char(char c)
+{
   char temp = c;
-  return is_number(temp) || is_alpha(temp);
+  return is_number(temp) || is_alpha(temp) || is_common_ab(temp);
+}
+short is_common_ab(char c)
+{
+  if (c == ',' || c == ':' || c == '(' || c == ')' || c == '.')
+  {
+    return 1;
+  }
+  else
+  {
+    return 0;
+  }
 }

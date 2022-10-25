@@ -3,6 +3,7 @@
 #include "my_math.h"
 #include <stdlib.h>
 #include <stdio.h>
+#include "my_ctype.h"
 /**
  * This function allocates a new cmd_node struct and initializes it's values
  * based on the input paramaters given. The next pointer is always
@@ -136,9 +137,29 @@ void gstr_normalize(PGSTRC raw_gstr) //已知是一个gstr字符串，需要转�
                                       */
   PGSTRV temp_gstr = (PGSTRV)calloc(1, sizeof(raw_gstr));
   GSTRCpy(temp_gstr, raw_gstr);
-  int ind;
-  while ((ind = GSTRFindChr(temp_gstr, ' ')) != -1)
+  int *ind = (int *)calloc(1, sizeof(int));
+  *ind = 0;
+  /*
+   * 以下去除掉命令中不合理的空格
+   *
+   */
+  while (*ind < GSTRLen(temp_gstr))
   {
-    GSTRDel(temp_gstr, ind,GSTRLen())
+    if (is_valid_char(GSTRInd(temp_gstr, (*ind)++)))
+    {
+      continue;
+    }
+    else
+    {
+      GSTRDel(temp_gstr, *ind, 1);
+    }
   }
+  free(ind);
+  /*
+   * 以下用于判定是否是当前已知的命令
+   */
+  int *begin_ind = (int *)calloc(1, sizeof(int));
+  *begin_ind = GSTRFindChr(temp_gstr, '(');
+  gstr
 }
+short is_cmd();

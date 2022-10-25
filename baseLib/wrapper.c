@@ -196,3 +196,33 @@ void GSTRDel(PGSTRV d, int pos, int len)
     d->length -= len;
   }
 }
+char GSTRInd(PGSTRV d, int pos)
+{
+  if (pos >= 0 && pos < d->length)
+  {
+    return *(d->data + pos);
+  }
+  else
+  {
+    printf("error!The index is out of range!");
+    return '\0';
+  }
+}
+//提取子列的函数
+// src：源gstr；begin：起始索引，从0开始；end：终止索引，最大为len-1；
+PGSTRV GSTRSubStr(PGSTRC src, int begin, int end)
+{
+  if (begin >= 0 && end < src->length)
+  {
+    int len = end - begin + 1;
+    char *temp = (char *)calloc(len, sizeof(char));
+    memcpy(temp, src->data + begin, len * sizeof(char));
+    free(temp);
+    return NewGSTR_Blank(temp);
+  }
+  else
+  {
+    printf("Error!The index of the sub-string is invalid!");
+    return NULL;
+  }
+}

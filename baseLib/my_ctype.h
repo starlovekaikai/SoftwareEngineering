@@ -59,7 +59,10 @@ Lower2Upper用于将字母字符转换为小写
 input：字符c
 output：当输入是合法字母字符时返回对应小写，否则返回'\0'
 */
-short is_common_ab(char c);
+
 char lower_2_lpper(char c);
+//检查是否为命令合法字符
 short is_valid_char(char c);
+//检查是否为常见符号,.:()
+short is_common_ab(char c);
 #endif

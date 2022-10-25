@@ -128,6 +128,8 @@ extern "C"
     none.
   */
   void GSTRDel(PGSTRV d, int pos, int len);
+  //返回对应位置的元素
+  char GSTRInd(PGSTRV d, int pos);
 
 #ifdef __cplusplus
 }

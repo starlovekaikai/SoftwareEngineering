@@ -65,7 +65,7 @@ typedef enum cmd_type
   GROUP_TYPE,//组合体，
   INVISIBLE//不可见的，用于功能控制
 } cmd_type;
-
+char *CMD[10]={"point","line","circle","rectangle","polygon","group_type","invisible"};
 cmd_node *new_cmd_node(char cmd[10], data_buff buf);
 
 //从文件读取命令的，生成命令名和命令数据
