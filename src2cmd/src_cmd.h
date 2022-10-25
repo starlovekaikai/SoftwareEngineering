@@ -69,6 +69,8 @@ typedef enum cmd_type
   CIRCLE,
   RECTANGLE,
   POLYGON,
+  GROUP_TYPE,//组合体，
+  INVISIBLE//不可见的，用于功能控制
 } cmd_type;
 
 cmd_node *new_cmd_node(char cmd[10], data_buff buf);
