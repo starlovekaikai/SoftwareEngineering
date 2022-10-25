@@ -6,6 +6,7 @@
 #define UI_SIZE_Y 512
 #endif
 #define ZERO 1e-6
+#include "my_math.c"
 //绘图坐标系下的点，坐标值的单位是像素pixel
 typedef struct ui_point
 {

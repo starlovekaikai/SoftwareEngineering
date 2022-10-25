@@ -1,5 +1,9 @@
 #ifndef STRING_WRAPPER
 #define STRING_WRAPPER
+#include <stdlib.h>
+#include <string.h>
+#include <assert.h>
+#include "wrapper.c"
 #ifdef __cplusplus
 extern "C"
 {

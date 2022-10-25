@@ -1,6 +1,3 @@
-#include <stdlib.h>
-#include <string.h>
-#include <assert.h>
 #include "wrapper.h"
 #ifdef WIN32
 #pragma warning(disable : 4996)
