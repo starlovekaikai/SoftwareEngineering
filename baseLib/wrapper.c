@@ -5,6 +5,17 @@
 #ifdef WIN32
 #pragma warning(disable : 4996)
 #endif // WIN32
+#ifndef SAME
+#define LONGER_BUT_LATTER 4
+#define LONGER_AND_SAME 3
+#define LONGER_BUT_FOREM 2
+#define LATTER 1
+#define SAME 0
+#define FOREM -1
+#define SHORTER_BUT_LATTER -2
+#define SHORTER_AND_SAME -3
+#define SHORTER_BUT_FOREM -4
+#endif
 typedef struct GSTR
 {
   int length;
@@ -93,9 +104,24 @@ int GSTRLen(PGSTRC s)
 {
   return s->length;
 }
+
 int GSTRCmp(PGSTRC a, PGSTRC b) //比较不全面，还需要比较length，再使用memcmp比较内存数据
 {
-  return strcmp(a->data, b->data);
+  int result;
+  if (a->length > b->length)
+  {
+    result = memcmp(a->data, b->data, b->length * sizeof(char));
+    return LONGER_AND_SAME + result;
+  }
+  else if (a->length < b->length)
+  {
+    result = memcmp(a->data, b->data, a->length * sizeof(char));
+    return SHORTER_AND_SAME + result;
+  }
+  else
+  {
+    return memcmp(a->data, b->data,a->length*sizeof(char));
+  }
 }
 int GSTRFindChr(PGSTRC s, char c)
 {
@@ -208,8 +234,7 @@ char GSTRInd(PGSTRV d, int pos)
     return '\0';
   }
 }
-//提取子列的函数
-// src：源gstr；begin：起始索引，从0开始；end：终止索引，最大为len-1；
+
 PGSTRV GSTRSubStr(PGSTRC src, int begin, int end)
 {
   if (begin >= 0 && end < src->length)
@@ -217,8 +242,9 @@ PGSTRV GSTRSubStr(PGSTRC src, int begin, int end)
     int len = end - begin + 1;
     char *temp = (char *)calloc(len, sizeof(char));
     memcpy(temp, src->data + begin, len * sizeof(char));
+    PGSTRV gstr_temp = NewGSTR_ByStr(temp);
     free(temp);
-    return NewGSTR_Blank(temp);
+    return gstr_temp;
   }
   else
   {

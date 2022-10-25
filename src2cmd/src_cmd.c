@@ -4,6 +4,17 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "my_ctype.h"
+#ifndef SAME
+#define LONGER_BUT_LATTER 4
+#define LONGER_AND_SAME 3
+#define LONGER_BUT_FOREM 2
+#define LATTER 1
+#define SAME 0
+#define FOREM -1
+#define SHORTER_BUT_LATTER -2
+#define SHORTER_AND_SAME -3
+#define SHORTER_BUT_FOREM -4
+#endif
 /**
  * This function allocates a new cmd_node struct and initializes it's values
  * based on the input paramaters given. The next pointer is always
@@ -116,7 +127,7 @@ PGSTRV read_cmd_file(file_name) // 得到gstr类型的一个变量指针
   FILE *file = fopen(file_name, "r");
   while (fgets(buffer, MAX_CMD_LEN, file) != NULL)
   { //一行一行地读取，直到读取到文件末尾
-    PGSTRV = NewGSTR_ByStr(buffer);
+    PGSTRV temp_gstr = NewGSTR_ByStr(buffer);
     /*
      *
      * 这里将对读取得到的gstr进行处理，得到一个命令数据体，包含全部规范化数据的
@@ -126,40 +137,54 @@ PGSTRV read_cmd_file(file_name) // 得到gstr类型的一个变量指针
     //清空内存
     memset(buffer, MAX_CMD_LEN, sizeof(char));
   }
+  free(buffer);
   fclose(file);
-  return head;
+  // return head;
 }
-void gstr_normalize(PGSTRC raw_gstr) //已知是一个gstr字符串，需要转换成一个对应名字枚举变量，对应数据的数据结构体
-{                                    /* 这里是转化的第一步，将命令规范化，
-                                      * 去掉多余的空格、查找命令是否符合要求，去掉行末多余的标点符号
-                                      *
-                                      *
-                                      */
+cmd_type gstr_normalize(PGSTRC raw_gstr, PGSTRV norm_data) //已知是一个gstr字符串，需要转换成一个对应名字枚举变量，对应数据的数据结构体
+{                                                          /* 这里是转化的第一步，将命令规范化，
+                                                            * 去掉多余的空格、查找命令是否符合要求，去掉行末多余的标点符号
+                                                            * 返回相应的命令枚举值；
+                                                            *
+                                                            */
   PGSTRV temp_gstr = (PGSTRV)calloc(1, sizeof(raw_gstr));
   GSTRCpy(temp_gstr, raw_gstr);
-  int *ind = (int *)calloc(1, sizeof(int));
-  *ind = 0;
+  int begin_ind = 0;
   /*
    * 以下去除掉命令中不合理的空格
    *
    */
-  while (*ind < GSTRLen(temp_gstr))
+  while (begin_ind < GSTRLen(temp_gstr))
   {
-    if (is_valid_char(GSTRInd(temp_gstr, (*ind)++)))
+    if (is_valid_char(GSTRInd(temp_gstr, begin_ind++)))
     {
       continue;
     }
     else
     {
-      GSTRDel(temp_gstr, *ind, 1);
+      GSTRDel(temp_gstr, begin_ind, 1);
     }
   }
-  free(ind);
   /*
    * 以下用于判定是否是当前已知的命令
    */
-  int *begin_ind = (int *)calloc(1, sizeof(int));
-  *begin_ind = GSTRFindChr(temp_gstr, '(');
-  gstr
+  begin_ind = GSTRFindChr(temp_gstr, '(');
+  PGSTRV cmd_name = GSTRSubStr(temp_gstr, 0, begin_ind - 1);
+  cmd_type ty_cmd = NOT_CMD;
+  if ((ty_cmd = type_of_cmd(cmd_name)) != NOT_CMD)
+  {
+  }
+  else
+  {
+    printf("Sorry!The input command is not valid, please check it carefully.");
+    return NOT_CMD;
+  }
+  /*还需要进一步读取数据*/
 }
-short is_cmd();
+cmd_type type_of_cmd(PGSTRC cmd)
+{
+  PGSTRV temp_cmd = NewGSTR_ByStr("point");
+  if (GSTRCmp(temp_cmd, cmd) == SAME)
+  {
+  }
+}

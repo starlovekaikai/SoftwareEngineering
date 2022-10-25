@@ -23,7 +23,7 @@ int main()
 
   char c[10] = "abcdfanc";
 
-  PGSTRV g = NewGSTR_ByStr(c);
+  PGSTRV g = NewGSTR_ByStr("abcdfanc");
   printf("das ist %c\n", GSTRInd(g,4));
   char d[10];
   GSTRExport(g, d);

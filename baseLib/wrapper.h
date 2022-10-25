@@ -130,7 +130,10 @@ extern "C"
   void GSTRDel(PGSTRV d, int pos, int len);
   //返回对应位置的元素
   char GSTRInd(PGSTRV d, int pos);
-
+  //提取子列的函数
+  // src：源gstr；begin：起始索引，从0开始；end：终止索引，
+  //对应位置即为子列最后一个元素在原序列上的位置，最大为len-1；
+  PGSTRV GSTRSubStr(PGSTRC src, int begin, int end);
 #ifdef __cplusplus
 }
 #endif // __cplusplus
