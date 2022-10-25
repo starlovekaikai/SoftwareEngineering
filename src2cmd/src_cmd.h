@@ -80,3 +80,7 @@ cmd_type enum_cmd_name(char cmd[10]);
 void del_cmd_list(cmd_node *cmd_list);
 //新建一个命令列表
 cmd_node *new_cmd_list();
+//将字符串按命令格式标准化，得到命令枚举种类和命令数据
+cmd_type gstr_normalize(PGSTRC raw_gstr, PGSTRV norm_data);
+//判定一个命令是否是有效的
+cmd_type type_of_cmd(PGSTRC cmd);

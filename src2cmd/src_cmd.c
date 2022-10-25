@@ -141,12 +141,13 @@ PGSTRV read_cmd_file(file_name) // 得到gstr类型的一个变量指针
   fclose(file);
   // return head;
 }
-cmd_type gstr_normalize(PGSTRC raw_gstr, PGSTRV norm_data) //已知是一个gstr字符串，需要转换成一个对应名字枚举变量，对应数据的数据结构体
-{                                                          /* 这里是转化的第一步，将命令规范化，
-                                                            * 去掉多余的空格、查找命令是否符合要求，去掉行末多余的标点符号
-                                                            * 返回相应的命令枚举值；
-                                                            *
-                                                            */
+//已知是一个gstr字符串，需要转换成一个对应名字枚举变量，对应数据的数据结构体
+cmd_type gstr_normalize(PGSTRC raw_gstr, PGSTRV norm_data)
+{ /* 这里是转化的第一步，将命令规范化，
+   * 去掉多余的空格、查找命令是否符合要求，去掉行末多余的标点符号
+   * 返回相应的命令枚举值；
+   *
+   */
   PGSTRV temp_gstr = (PGSTRV)calloc(1, sizeof(raw_gstr));
   GSTRCpy(temp_gstr, raw_gstr);
   int begin_ind = 0;
@@ -168,11 +169,13 @@ cmd_type gstr_normalize(PGSTRC raw_gstr, PGSTRV norm_data) //已知是一个gstr
   /*
    * 以下用于判定是否是当前已知的命令
    */
-  begin_ind = GSTRFindChr(temp_gstr, '(');
-  PGSTRV cmd_name = GSTRSubStr(temp_gstr, 0, begin_ind - 1);
+  int end_ind = GSTRFindChr(temp_gstr, '(');
+  PGSTRV cmd_name = GSTRSubStr(temp_gstr, 0, end_ind);
   cmd_type ty_cmd = NOT_CMD;
   if ((ty_cmd = type_of_cmd(cmd_name)) != NOT_CMD)
   {
+    norm_data = GSTRSubStr(temp_gstr, end_ind, GSTRLen(temp_gstr) - 1);
+    return ty_cmd;
   }
   else
   {
@@ -186,5 +189,32 @@ cmd_type type_of_cmd(PGSTRC cmd)
   PGSTRV temp_cmd = NewGSTR_ByStr("point");
   if (GSTRCmp(temp_cmd, cmd) == SAME)
   {
+    return POINT;
   }
+  temp_cmd = NewGSTR_ByStr("line");
+  if (GSTRCmp(temp_cmd, cmd) == SAME)
+  {
+    return LINE;
+  }
+  temp_cmd = NewGSTR_ByStr("circle");
+  if (GSTRCmp(temp_cmd, cmd) == SAME)
+  {
+    return CIRCLE;
+  }
+  temp_cmd = NewGSTR_ByStr("rectan");
+  if (GSTRCmp(temp_cmd, cmd) == SAME)
+  {
+    return RECTANGLE;
+  }
+  temp_cmd = NewGSTR_ByStr("group");
+  if (GSTRCmp(temp_cmd, cmd) == SAME)
+  {
+    return GROUP_TYPE;
+  }
+  temp_cmd = NewGSTR_ByStr("function");
+  if (GSTRCmp(temp_cmd, cmd) == SAME)
+  {
+    return INVISIBLE;
+  }
+  return NOT_CMD;
 }
