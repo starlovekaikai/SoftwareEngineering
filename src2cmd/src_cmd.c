@@ -1,4 +1,5 @@
 #include "src_cmd.h"
+#include "wrapper.h"
 /**
  * This function allocates a new cmd_node struct and initializes it's values
  * based on the input paramaters given. The next pointer is always
@@ -84,3 +85,35 @@ cmd_node *new_cmd_list()
   new_node->next = NULL;
   return new_node;
 }
+PGSTRV read_cmd_std() // 得到gstr类型的一个变量指针
+{
+  //在使用之前最好加一个Printf请求用户输入命令
+  PGSTRV cmd = NewGSTR_Empty();
+  char ch;
+  while ((ch = getchar()) != '\n')
+  {
+    if (GSTRLen(cmd) > MAX_CMD_LEN)
+    {
+      printf("Sorry, your input command is too long to translate. Please try it again.");
+      break;
+    }
+    else
+    {
+      PGSTRV temp_c = NewGSTR_ByStr(&ch);
+      GSTRCat(cmd, temp_c);
+    }
+  }
+  return cmd;
+}
+PGSTRV read_cmd_file(file_name) // 得到gstr类型的一个变量指针
+{
+  char *buffer=(char*)calloc(MAX_CMD_LEN,sizeof(char));
+  //在使用之前最好加一个Printf请求用户输入命令
+  FILE *file = fopen(file_name, "r");
+  while (fgets(buffer, MAX_CMD_LEN, file) != NULL) {//一行一行地读取，直到读取到文件末尾
+
+  }
+  fclose(file);
+  return head;
+}
+void gstr_cmd()

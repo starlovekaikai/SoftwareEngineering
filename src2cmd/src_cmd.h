@@ -15,8 +15,10 @@
 #define UI_SIZE_X 512
 #define UI_SIZE_Y 512
 #endif
+// The biggest size of certain input command with its argments.
+#define MAX_CMD_LEN 40
 /*---------------------------------------------------------------------------*/
-
+#include "my_math.h"
 /*
  * This struct contains one node of the linked list, which represents a single
  * command. It's field should include:
@@ -65,6 +67,7 @@ typedef enum cmd_type
   POINT = 1,
   LINE,
   CIRCLE,
+  RECTANGLE,
   POLYGON,
 } cmd_type;
 
@@ -73,7 +76,8 @@ cmd_node *new_cmd_node(char cmd[10], data_buff buf);
 //从文件读取命令的，生成命令名和命令数据
 cmd_node *load_cmd_file(char *filename);
 //从键盘读取命令的
-cmd_node *read_cmd_std();
+PGSTRV read_cmd_std();
+PGSTRV read_cmd_file();
 //从命令名和命令数据生成特征点数据结构，包括一个
 cmd_node *new_cmd_list_add(cmd_node *cmd_list, cmd_node *new_item);
 //根据命令名，将其定义为枚举变量
