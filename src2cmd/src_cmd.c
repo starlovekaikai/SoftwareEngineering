@@ -80,7 +80,7 @@ cmd_node *load_cmd_file(char *filename)
 cmd_node *new_cmd_list()
 {
   cmd_node *new_node = (cmd_node *)calloc(1, sizeof(cmd_node));
-  new_node->name[0] = '\0';
+  new_node->cmd_type = NOT_CMD;
   new_node->data = NULL;
   new_node->next = NULL;
   return new_node;
@@ -116,4 +116,4 @@ PGSTRV read_cmd_file(file_name) // 得到gstr类型的一个变量指针
   fclose(file);
   return head;
 }
-void gstr_cmd()
+void gstr_cmd()//已知是一个gstr字符串，需要转换成一个对应名字枚举变量，对应数据的数据结构体
