@@ -19,7 +19,6 @@
 #define MAX_CMD_LEN 40
 /*---------------------------------------------------------------------------*/
 #include "my_math.h"
-#include "src_cmd.c"
 /*
  * This struct contains one node of the linked list, which represents a single
  * command. It's field should include:

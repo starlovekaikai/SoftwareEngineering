@@ -125,11 +125,13 @@ PGSTRV read_cmd_file(file_name) // 得到gstr类型的一个变量指针
   fclose(file);
   return head;
 }
-void gstr_normalize(PGSTRV raw_gstr) //已知是一个gstr字符串，需要转换成一个对应名字枚举变量，对应数据的数据结构体
+void gstr_normalize(PGSTRC raw_gstr) //已知是一个gstr字符串，需要转换成一个对应名字枚举变量，对应数据的数据结构体
 {                                    /* 这里是转化的第一步，将命令规范化，
                                       * 去掉多余的空格、查找命令是否符合要求，去掉行末多余的标点符号
                                       *
                                       *
                                       */
-  GSTRFind
+  PGSTRV temp_gstr = (PGSTRV)calloc(1, sizeof(raw_gstr));
+  GSTRCpy(temp_gstr, raw_gstr);
+  
 }

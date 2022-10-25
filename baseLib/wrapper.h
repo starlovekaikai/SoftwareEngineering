@@ -3,7 +3,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include <assert.h>
-#include "wrapper.c"
 #ifdef __cplusplus
 extern "C"
 {
