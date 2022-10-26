@@ -140,7 +140,14 @@ PGSTRV read_cmd_file(file_name) // 得到gstr类型的一个变量指针
     if ((c_t = gstr_normalize(temp_gstr, temp_data)) != NOT_CMD)
     {
       //判断括号匹配，如果匹配
-      //进行数据提取
+      if (bilat_match(temp_data) != NULL)
+      {
+        //进行数据提取
+      }
+      else
+      {
+        printf("Sorry!The input brace is not MATCHED, please check it carefully.");
+      }
     }
     else
     {
@@ -153,6 +160,26 @@ PGSTRV read_cmd_file(file_name) // 得到gstr类型的一个变量指针
   fclose(file);
   // return head;
 }
+//括号匹配函数，直接实现逗号分割
+void *bilat_match(PGSTRC data_gstr)
+{
+  if (GSTRInd(data_gstr, 0) == '(' && GSTRInd(data_gstr, GSTRLen(data_gstr)) == ')')
+  {
+    short begin_ind =1, end_ind = 0;
+    data_buff *match = (data_buff *)calloc(1, sizeof(data_buff));
+    *(char *)match->val = '(';
+    end_ind = GSTRFindChr(data_gstr, ',');
+    data_buff *data=(data_buff*)calloc(1,sizeof(data_buff));
+  }
+  else
+  {
+    return NULL;
+  }
+}
+//引号匹配函数
+
+//数据翻译函数
+
 //已知是一个gstr字符串，需要转换成一个对应名字枚举变量，对应数据的数据结构体
 cmd_type gstr_normalize(PGSTRC raw_gstr, PGSTRV norm_data)
 { /*
@@ -188,15 +215,14 @@ cmd_type gstr_normalize(PGSTRC raw_gstr, PGSTRV norm_data)
   if ((ty_cmd = type_of_cmd(cmd_name)) != NOT_CMD)
   {
     norm_data = GSTRSubStr(temp_gstr, end_ind, GSTRLen(temp_gstr) - 1);
+    free(temp_gstr);
     return ty_cmd;
   }
   else
   {
+    free(temp_gstr);
     return NOT_CMD;
   }
-  /*判断括号是否匹配*/
-
-  /*还需要进一步读取数据*/
 }
 short data_match(PGSTRC data)
 {
@@ -206,32 +232,39 @@ cmd_type type_of_cmd(PGSTRC cmd)
   PGSTRV temp_cmd = NewGSTR_ByStr("point");
   if (GSTRCmp(temp_cmd, cmd) == SAME)
   {
+    GSTRDestroy(temp_cmd);
     return POINT;
   }
   temp_cmd = NewGSTR_ByStr("line");
   if (GSTRCmp(temp_cmd, cmd) == SAME)
   {
+    GSTRDestroy(temp_cmd);
     return LINE;
   }
   temp_cmd = NewGSTR_ByStr("circle");
   if (GSTRCmp(temp_cmd, cmd) == SAME)
   {
+    GSTRDestroy(temp_cmd);
     return CIRCLE;
   }
   temp_cmd = NewGSTR_ByStr("rectan");
   if (GSTRCmp(temp_cmd, cmd) == SAME)
   {
+    GSTRDestroy(temp_cmd);
     return RECTANGLE;
   }
   temp_cmd = NewGSTR_ByStr("group");
   if (GSTRCmp(temp_cmd, cmd) == SAME)
   {
+    GSTRDestroy(temp_cmd);
     return GROUP_TYPE;
   }
   temp_cmd = NewGSTR_ByStr("function");
   if (GSTRCmp(temp_cmd, cmd) == SAME)
   {
+    GSTRDestroy(temp_cmd);
     return INVISIBLE;
   }
+  GSTRDestroy(temp_cmd);
   return NOT_CMD;
 }

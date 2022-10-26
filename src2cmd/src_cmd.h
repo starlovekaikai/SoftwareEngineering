@@ -47,7 +47,7 @@ typedef struct cmd_node
  */
 typedef struct data_buff
 {
-  int val;
+  void* val;
   struct data_buff *next;
 } data_buff;
 /*
