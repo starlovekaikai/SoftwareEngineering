@@ -12,14 +12,12 @@ typedef struct node_data
 node_data *list_new()
 {
   node_data *temp = (node_data *)calloc(1, sizeof(node_data));
-
   temp->next = NULL;
   temp->val = NULL;
 }
 node_data *list_new_val(void *val)
 {
   node_data *temp = (node_data *)calloc(1, sizeof(node_data));
-
   temp->next = val;
   temp->val = NULL;
 }
@@ -30,22 +28,24 @@ node_data *list_cat(node_data *data_list, void *data_next)
   temp->next = data_list;
   return temp;
 }
-void **list_out(node_data *data_list)
+void list_out(node_data *data_list, void *out_val)
 {
-  void **temp = (void **)calloc(1, sizeof(void *));
-  *temp = data_list->val;
-  data_list = data_list->next;
-  free(data_list->val);
-  return temp;
+  out_val = data_list->val;
+  free(data_list);
 }
 void list_del(node_data *data_list)
 {
+  node_data *temp = (node_data *)calloc(1, sizeof(node_data));
+  temp = data_list;
   while (data_list->next != NULL)
   {
     free(data_list->val);
+    temp = data_list;
     data_list = data_list->next;
+    free(temp);
   }
   free(data_list->val);
+  free(data_list->next);
   free(data_list);
 }
 uint list_emp(const node_data *data_list)
@@ -80,9 +80,11 @@ node_data *list_inv(node_data *data_list)
   list_del(data_list);
   return temp;
 }
-node_data *list_cpy(node_data *data_list)
+void list_cpy(node_data *src_list, node_data *dst_list)
 {
-  return list_inv_cpy(list_inv_cpy(data_list));
+  node_data *temp1 = list_inv_cpy(src_list);
+  dst_list = list_inv_cpy(temp1);
+  list_del(src_list);
 }
 uint list_len(node_data *data_list)
 {
@@ -107,10 +109,9 @@ uint list_len(node_data *data_list)
 //   }
 //   return buff;
 // }
-void **list_prt(node_data *data_list)
+void list_prt(node_data *data_list, void **buff)
 {
   uint i = 0;
-  void **buff = (void **)calloc(list_len(data_list), sizeof(void *));
   node_data *temp = data_list;
   while (temp->next != NULL)
   {
@@ -118,7 +119,6 @@ void **list_prt(node_data *data_list)
     temp = temp->next;
     i++;
   }
-  return buff;
 }
 
 void **list_ind(node_data *data_list, uint ind)
@@ -234,7 +234,7 @@ float float_from_char_list(node_data *data_list)
     }
   } while (temp_list->next != NULL);
   //小数部分
-  do
+  while (temp_list->next != NULL)
   {
     if (is_number(*(char *)temp_list->val))
     {
@@ -246,24 +246,28 @@ float float_from_char_list(node_data *data_list)
       printf("\n----------------****----------------\nERROR!\nThere are INVALID characters in DECIMAL number.\nPlease check your input or COMFIRM the type of list value is CHAR!\n----------------****----------------\n");
       return 0.0;
     }
-  } while (temp_list->next != NULL);
+  }
   return (temp_int + temp_dec) * sign;
 }
-node_data *list_del_val(node_data *data_list, void *val, uint (*comp)(void *, void *))
+node_data *list_del_val(node_data *data_list, void *val, int (*comp)(void *, void *))
 {
-  node_data *temp_list = list_inv_cpy(data_list);
-  while (data_list->next != NULL)
+  node_data *temp_list = list_inv(data_list);
+  node_data *temp = list_new();
+  while (temp_list->next != NULL)
   {
-    node_data *temp = (node_data *)calloc(1, sizeof(node_data));
-    temp=NULL;
-    if (is_same(val, temp_list->val))
+
+    if (comp(val, temp_list->val))
     {
+      temp->next = temp_list->next;
       free(temp_list->val);
-      temp=temp_list->next;
       free(temp_list);
+      temp_list = temp->next;
     }
-    temp=temp_list;
-    temp_list=temp_list->next;
+    else
+    {
+      temp = temp_list;
+      temp_list = temp_list->next;
+    }
   }
   list_del(data_list);
   return temp_list;

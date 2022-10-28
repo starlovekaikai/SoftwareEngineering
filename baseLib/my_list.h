@@ -17,13 +17,13 @@ node_data *list_cat(node_data *data_list, void *data_next);
  * 改变指针强制类型转换的类型名即可实现调用任意类型数据
  *
  */
-void **list_out(node_data *data_list);
+void list_out(node_data *data_list, void *out_val);
 //栈判空
 uint list_emp(const node_data *data_list);
 //反向复制
 node_data *list_inv_cpy(node_data *data_list);
 //正向复制
-node_data *list_cpy(node_data *data_list);
+void list_cpy(node_data *src_list,node_data*dst_list);
 /*
  * 按输入顺序反序打印为任意类型的数组，可能会报警告
  * 使用方法：
@@ -33,7 +33,7 @@ node_data *list_cpy(node_data *data_list);
  * 改变指针强制类型转换的类型名即可实现打印任意类型数据
  *
  */
-void **list_prt(node_data *data_list);
+void list_prt(node_data *data_list,void** buff);
 //清空
 void list_del(node_data *data_list);
 //取长度，使用的是循环，时间成本大，能不用就不用
@@ -50,7 +50,7 @@ void **list_nod(node_data *node);
  */
 node_data *list_sub(node_data *data_list, uint ind, uint len);
 //链表中查找某一元素并删除包含该元素的全部节点
-node_data *list_del_val(node_data *data_list, void *val,uint (*comp)(void*, void*));
+node_data *list_del_val(node_data *data_list, void *val,int (*comp)(void*, void*));
 //链表中删除某一连续节点
 node_data *list_del_sub(node_data *data_list, void *str,uint (*comp)(void*, void*));
 //特别地，从字符型链表返回一个int型数值
