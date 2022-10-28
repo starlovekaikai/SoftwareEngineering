@@ -16,6 +16,13 @@ node_data *list_new()
   temp->next = NULL;
   temp->val = NULL;
 }
+node_data *list_new_val(void *val)
+{
+  node_data *temp = (node_data *)calloc(1, sizeof(node_data));
+
+  temp->next = val;
+  temp->val = NULL;
+}
 node_data *list_cat(node_data *data_list, void *data_next)
 {
   node_data *temp = (node_data *)calloc(1, sizeof(node_data));
@@ -242,7 +249,22 @@ float float_from_char_list(node_data *data_list)
   } while (temp_list->next != NULL);
   return (temp_int + temp_dec) * sign;
 }
-node_data *list_fid_val(node_data *data_list, void *val)
+node_data *list_del_val(node_data *data_list, void *val, uint (*comp)(void *, void *))
 {
-  
+  node_data *temp_list = list_inv_cpy(data_list);
+  while (data_list->next != NULL)
+  {
+    node_data *temp = (node_data *)calloc(1, sizeof(node_data));
+    temp=NULL;
+    if (is_same(val, temp_list->val))
+    {
+      free(temp_list->val);
+      temp=temp_list->next;
+      free(temp_list);
+    }
+    temp=temp_list;
+    temp_list=temp_list->next;
+  }
+  list_del(data_list);
+  return temp_list;
 }

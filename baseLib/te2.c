@@ -1,6 +1,15 @@
 #include <stdio.h>
 #include "my_list.h"
-
+uint is_same(void *a, void *b)
+{
+  char *ta = (char *)a;
+  char *tb = (char *)b;
+  if (*ta == *tb)
+  {
+    return 1;
+  }
+  return 0;
+}
 void main()
 {
   char *a = (char *)calloc(1, sizeof(char));
@@ -17,11 +26,14 @@ void main()
     // node_data *temp = list_inv_cpy(list);
     /* code */
   }
-
+  char A[2]={'1'};
+  char *pA=A;
+  node_data *fid = list_del_val(list, pA, is_same);
+  printf("find result is %c", *(char*)*(list_nod(fid)));
   uint len = list_len(list);
   void **M = (void **)calloc(len, sizeof(void *));
-  node_data* sub_list=list_sub(list,0,12);
-  len=list_len(sub_list);
+  node_data *sub_list = list_sub(list, 0, 12);
+  len = list_len(sub_list);
   M = list_prt(sub_list);
   int i = 0;
   printf("string is ");
@@ -31,9 +43,9 @@ void main()
     printf("%c", d);
     i++;
   }
-  printf("\nint is %f",float_from_char_list(sub_list));
+  printf("\nint is %f", float_from_char_list(sub_list));
   free(M);
   M = (void **)calloc(1, sizeof(void *));
-  M=list_ind(list,1);
-  printf("\nchar is %c",*(char*)(*M));
+  M = list_ind(list, 1);
+  printf("\nchar is %c", *(char *)(*M));
 }
