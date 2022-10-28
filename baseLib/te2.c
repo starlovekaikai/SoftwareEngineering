@@ -50,6 +50,6 @@ int main()
     N = list_ind(list, 3);
     printf("\nchar is %c\n", *(char *)*N);
   }
-
+34
   return 0;
 }
