@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include "my_list.h"
-int is_same(void *a, void *b)
+uint is_same(void *a, void *b)
 {
   char *ta = (char *)a;
   char *tb = (char *)b;
@@ -10,7 +10,7 @@ int is_same(void *a, void *b)
   }
   return 0;
 }
-void main()
+int main()
 {
   char *a = (char *)calloc(1, sizeof(char));
   node_data *list = list_new();
@@ -26,8 +26,8 @@ void main()
     // node_data *temp = list_inv_cpy(list);
     /* code */
   }
-  char A[2]={'1'};
-  char *pA=A;
+  char A[2] = {'1'};
+  char *pA = A;
   node_data *fid = list_del_val(list, pA, is_same);
   uint len = list_len(list);
   void **M = (void **)calloc(len, sizeof(void *));
@@ -45,5 +45,9 @@ void main()
     i++;
   }
   printf("\nint is %f", float_from_char_list(sub_list));
-  free(M);
+  // free(M);
+  void **N = (void **)calloc(1, sizeof(void *));
+  N = list_ind(list, 3);
+  printf("char is %c", *(char *)*N);
+  return 0;
 }
