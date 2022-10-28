@@ -163,13 +163,33 @@ PGSTRV read_cmd_file(file_name) // 得到gstr类型的一个变量指针
 //括号匹配函数，直接实现逗号分割
 void *bilat_match(PGSTRC data_gstr)
 {
-  if (GSTRInd(data_gstr, 0) == '(' && GSTRInd(data_gstr, GSTRLen(data_gstr)) == ')')
+  int len = GSTRLen(data_gstr);
+  if (GSTRInd(data_gstr, 0) == '(' && GSTRInd(data_gstr, len) == ')')
   {
-    short begin_ind =1, end_ind = 0;
-    data_buff *match = (data_buff *)calloc(1, sizeof(data_buff));
-    *(char *)match->val = '(';
-    end_ind = GSTRFindChr(data_gstr, ',');
-    data_buff *data=(data_buff*)calloc(1,sizeof(data_buff));
+    short begin_ind = 1, end_ind = 0;
+    while (end_ind != len)
+    {
+      data_buff *match = (data_buff *)calloc(1, sizeof(data_buff));
+      *(char *)match->val = '(';
+      match->next = NULL;
+
+      if (GSTRInd(data_gstr, end_ind) == ',')
+      {
+        data_buff *data = (data_buff *)calloc(1, sizeof(data_buff));
+        *(PGSTRV *)(data->val) = GSTRSubStr(data_gstr, begin_ind, end_ind - 1);
+        data->next = data;
+      }
+      if (GSTRInd(data_gstr, end_ind) == '(')
+      {
+        data_buff *temp = (data_buff *)calloc(1, sizeof(data_buff));
+        temp->next = match;
+      }
+      if (GSTRInd(data_gstr, end_ind) == ')')
+      {
+        free(match->next);
+      }
+      end_ind++;
+    }
   }
   else
   {
