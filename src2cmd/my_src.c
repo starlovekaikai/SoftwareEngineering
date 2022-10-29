@@ -21,6 +21,7 @@ void **char_comp(void *a, void *b)
 }
 uint lists_cmp(node_data *data_list_a, node_data *data_list_b, void **(*op)(void *, void *))
 {
+  assert(data_list_a != NULL &&data_list_b ! = NULL);
   uint len = lists_len_min(data_list_a, data_list_b);
   void **result_list = (void **)malloc(len * sizeof(void *));
   result_list = lists_itm_op(data_list_a, data_list_b, op, len);
@@ -33,15 +34,18 @@ uint lists_cmp(node_data *data_list_a, node_data *data_list_b, void **(*op)(void
 }
 uint list_char_cmp(node_data *data_list_a, node_data *data_list_b)
 {
+  assert(data_list_a != NULL &&data_list_b ! = NULL);
   return lists_cmp(data_list_a, data_list_b, char_comp);
 }
-point *pnt_from_char_list(node_data *data_list){
+point *pnt_from_char_list(node_data *data_list)
+{
   //包括格式化：去除空格，
   //
 }
 //按括号匹配输入值
 void node_match(node_data *data_list, node_data *top, char *val)
 {
+  assert(data_list != NULL);
   //返回值就是top，即当前最外层的子链
   if (*val == '(')
   {

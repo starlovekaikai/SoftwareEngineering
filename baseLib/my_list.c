@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include "my_ctype.h"
 #include <malloc.h>
+#include <assert.h>
 #ifndef NULL
 #define NULL ((void *)0)
 #endif
@@ -33,6 +34,7 @@ node_data *list_new_val(void *val)
 }
 node_data *list_cat(node_data *data_list, void *data_next)
 {
+  assert(data_list != NULL);
   node_data *temp = (node_data *)malloc(sizeof(node_data));
   temp->val = data_next;
   temp->next = data_list;
@@ -40,6 +42,7 @@ node_data *list_cat(node_data *data_list, void *data_next)
 }
 node_data *list_que(node_data *data_list, void *data_next)
 {
+  assert(data_list != NULL);
   if (data_list->next != NULL)
   {
     printf("ERROR!CANNOT insert quene item into stack!");
@@ -52,12 +55,14 @@ node_data *list_que(node_data *data_list, void *data_next)
 }
 void list_out(node_data *data_list, void *out_val)
 {
+  assert(data_list != NULL);
   out_val = data_list->val;
   free(data_list);
 }
 
 void list_del_innate(node_data *data_list)
 {
+  assert(data_list != NULL);
   node_data *temp = (node_data *)malloc(sizeof(node_data));
   temp = NULL;
   while (data_list->next != NULL)
@@ -72,6 +77,7 @@ void list_del_innate(node_data *data_list)
 }
 void list_del_usr(node_data *data_list)
 {
+  assert(data_list != NULL);
   node_data *temp = (node_data *)malloc(sizeof(node_data));
   temp = NULL;
   while (data_list->next != NULL)
@@ -87,6 +93,7 @@ void list_del_usr(node_data *data_list)
 }
 uint list_len(node_data *data_list)
 {
+  assert(data_list != NULL);
   uint iter = 0;
   node_data *temp = (node_data *)malloc(sizeof(node_data));
   temp = data_list;
@@ -105,6 +112,7 @@ uint list_len(node_data *data_list)
 }
 uint list_emp(const node_data *data_list)
 {
+  assert(data_list != NULL);
   if (data_list->next == NULL)
   {
     return _IS_EMPTY_;
@@ -116,6 +124,7 @@ uint list_emp(const node_data *data_list)
 }
 node_data *list_inv_cpy(node_data *data_list)
 {
+  assert(data_list != NULL);
   node_data *temp = list_new();
   while (data_list->next != NULL)
   {
@@ -126,6 +135,7 @@ node_data *list_inv_cpy(node_data *data_list)
 }
 node_data *list_inv(node_data *data_list)
 {
+  assert(data_list != NULL);
   node_data *temp = list_new();
   while (data_list->next != NULL)
   {
@@ -135,26 +145,32 @@ node_data *list_inv(node_data *data_list)
   list_del_innate(data_list);
   return temp;
 }
+void *memcpy(void *dest, const void *src, size_t count)
+{
+  assert(dest != NULL && src != NULL);
+
+  char *p = (char *)dest;
+  char *q = (char *)src;
+  if (p == q)
+    return p;
+
+  while (count--)
+  {
+    *p++ = *q++;
+  }
+
+  return dest;
+}
 node_data *list_cpy(node_data *data_list)
 {
+  assert(data_list != NULL);
   node_data *temp1 = list_inv_cpy(data_list);
   return list_inv_cpy(temp1);
 }
 
-// char *print_list(node_data *data_list)
-// {
-//   uint i = 0;
-//   char *buff = (char *)calloc(sizeof(*data_list) / sizeof(node_data), sizeof(node_data));
-//   while (data_list->next != NULL)
-//   {
-//     *(buff + i) = *(char *)(data_list->val);
-//     data_list = data_list->next;
-//     i++;
-//   }
-//   return buff;
-// }
 void list_prt(node_data *data_list, void **buff)
 {
+  assert(data_list != NULL && buff != NULL);
   uint i = 0;
   node_data *temp = (node_data *)malloc(sizeof(node_data));
   temp = list_inv_cpy(data_list);
@@ -172,6 +188,7 @@ void list_prt(node_data *data_list, void **buff)
 
 void **list_ind(node_data *data_list, uint ind)
 {
+  assert(data_list != NULL);
   uint iter = 0;
   void **temp = (void **)malloc(sizeof(void *));
   node_data *data_inv = list_inv_cpy(data_list);
@@ -197,12 +214,14 @@ void **list_ind(node_data *data_list, uint ind)
 }
 void **list_nod(node_data *node)
 {
+  assert(node != NULL);
   void **temp = (void **)malloc(sizeof(void *));
   *temp = node->val;
   return temp;
 }
 node_data *list_sub(node_data *data_list, uint ind, uint len)
 {
+  assert(data_list != NULL);
   node_data *data_temp = list_inv_cpy(data_list);
   node_data *temp = list_new();
   uint iter = 0;
@@ -234,6 +253,7 @@ node_data *list_sub(node_data *data_list, uint ind, uint len)
 }
 int int_from_char_list(node_data *data_list)
 {
+  assert(data_list != NULL);
   int temp = 0, sign = 1;
   node_data *temp_list = (node_data *)malloc(sizeof(node_data));
   temp_list = data_list;
@@ -264,6 +284,7 @@ int int_from_char_list(node_data *data_list)
 }
 float float_from_char_list(node_data *data_list)
 {
+  assert(data_list != NULL);
   float temp_int = 0, temp_dec = 0, sign = 1.0;
   node_data *temp_list = (node_data *)malloc(sizeof(node_data));
   node_data *fract_list = list_new();
@@ -318,6 +339,7 @@ float float_from_char_list(node_data *data_list)
 }
 node_data *list_del_val(node_data *data_list, void *val, uint (*comp)(void *, void *))
 {
+  assert(data_list != NULL);
   node_data *temp_now = list_inv_cpy(data_list);
   node_data *temp_list = (node_data *)malloc(sizeof(node_data));
   temp_list = temp_now;
@@ -353,10 +375,14 @@ node_data *list_del_val(node_data *data_list, void *val, uint (*comp)(void *, vo
   return list_inv_cpy(temp_list);
 }
 /*以下为专用函数了*/
+
 node_data *list_itm_op(node_data *data_list, void **(*op)(void *))
 {
+  assert(data_list != NULL);
+  //这个函数要改变原序列对应的内存
+  node_data *temp_list = list_inv_cpy(data_list);
   node_data *temp = (node_data *)malloc(sizeof(node_data));
-  temp = data_list;
+  temp = temp_list;
   while (temp->next != NULL)
   {
     temp->val = *op(temp->val);
@@ -364,10 +390,11 @@ node_data *list_itm_op(node_data *data_list, void **(*op)(void *))
   }
   temp = NULL;
   free(temp);
-  return data_list;
+  return list_inv_cpy(temp_list);
 }
 uint lists_len_min(node_data *data_list_a, node_data *data_list_b)
 {
+  assert(data_list_a != NULL && data_list_b != NULL);
   node_data *temp_a = (node_data *)malloc(sizeof(node_data));
   node_data *temp_b = (node_data *)malloc(sizeof(node_data));
   temp_a = data_list_a;
@@ -385,8 +412,9 @@ uint lists_len_min(node_data *data_list_a, node_data *data_list_b)
   free(temp_b);
   return len;
 }
-void **lists_itm_op(node_data *data_list_a, node_data *data_list_b, void **(*op)(void *, void *),uint len)
+void **lists_itm_op(node_data *data_list_a, node_data *data_list_b, void **(*op)(void *, void *), uint len)
 {
+  assert(data_list_a != NULL && data_list_b != NULL);
   node_data *temp_a = (node_data *)malloc(sizeof(node_data));
   node_data *temp_b = (node_data *)malloc(sizeof(node_data));
   temp_a = data_list_a;
@@ -395,7 +423,7 @@ void **lists_itm_op(node_data *data_list_a, node_data *data_list_b, void **(*op)
   void **result_list = (void **)malloc(len * sizeof(void *));
   while (i < len)
   {
-    *(result_list+i) = *op(temp_a->val, temp_b->val);
+    *(result_list + i) = *op(temp_a->val, temp_b->val);
     temp_a = temp_a->next;
     temp_b = temp_b->next;
     i++;
@@ -406,6 +434,29 @@ void **lists_itm_op(node_data *data_list_a, node_data *data_list_b, void **(*op)
   free(temp_b);
   return result_list;
 }
-node_data *list_del_bil(node_data *data_list, uint (*comp)(void *)){
-  
+node_data *list_del_bil(node_data *data_list, uint (*cond)(void *))
+{
+  assert(data_list != NULL);
+  node_data *temp_list = list_inv_cpy(data_list);
+  node_data *temp_now = (node_data *)malloc(sizeof(node_data));
+  temp_now = temp_list;
+  //清空尾部的无效字符
+  while (cond(temp_list->val))
+  {
+    temp_now = temp_list->next;
+    free(temp_list);
+    temp_list = temp_list->next;
+  }
+  temp_list = list_inv_cpy(temp_now);
+  temp_now = temp_list;
+  //清空头部的无效字符
+  while (cond(temp_list->val))
+  {
+    temp_now = temp_list->next;
+    free(temp_list);
+    temp_list = temp_list->next;
+  }
+  temp_list = NULL;
+  free(temp_list);
+  return temp_now;
 }

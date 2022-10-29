@@ -21,6 +21,16 @@ void **op(void *a)
   }
   return pa;
 }
+void **op2(void *a)
+{
+  void **pa = (void **)calloc(1, sizeof(void *));
+  *pa = a;
+  if (*(char *)*pa == '3')
+  {
+    *(char *)*pa = '+';
+  }
+  return pa;
+}
 int main()
 {
   char *a = (char *)calloc(1, sizeof(char));
@@ -64,6 +74,21 @@ int main()
     node_data *List = list_itm_op(list, op);
     len = list_len(List);
     void **P = (void **)calloc(len, sizeof(void *));
+    list_prt(List, P);
+
+    i = 0;
+    printf("string is ");
+    while (i < len)
+    {
+      char d = *(char *)(*(P + i));
+      printf("%c", d);
+      i++;
+    }
+    printf("\n");
+
+    List = list_itm_op(list, op2);
+    len = list_len(List);
+    P = (void **)calloc(len, sizeof(void *));
     list_prt(List, P);
 
     i = 0;

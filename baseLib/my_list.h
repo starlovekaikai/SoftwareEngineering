@@ -70,4 +70,5 @@ int int_from_char_list(node_data *data_list);
 //特别地，从字符型链表返回一个float型数值
 float float_from_char_list(node_data *data_list);
 //删除链表首尾的无效数据（如空格）而保留中间的数据不动
-node_data *list_del_bil(node_data *data_list, uint (*comp)(void *));
+node_data *list_del_bil(node_data *data_list, uint (*cond)(void *));
+void *memcpy(void *dest, const void *src, size_t count);
