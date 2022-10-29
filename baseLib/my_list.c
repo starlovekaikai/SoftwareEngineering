@@ -55,6 +55,7 @@ void list_del_innate(node_data *data_list)
     data_list = temp;
   }
   free(data_list->next);
+  data_list = NULL;
   free(data_list);
 }
 void list_del_usr(node_data *data_list)
@@ -338,4 +339,20 @@ node_data *list_del_val(node_data *data_list, void *val, uint (*comp)(void *, vo
   temp_now = NULL;
   free(temp_now);
   return list_inv_cpy(temp_list);
+}
+node_data *list_itm_op(node_data *data_list, void **(*op)(void *))
+{
+  node_data *temp = (node_data *)calloc(1, sizeof(node_data));
+  temp = data_list;
+  while (temp->next != NULL)
+  {
+    temp->val = *op(temp->val);
+    temp = temp->next;
+  }
+  temp = NULL;
+  free(temp);
+  return data_list;
+}
+node_data *list_get_std(){
+
 }

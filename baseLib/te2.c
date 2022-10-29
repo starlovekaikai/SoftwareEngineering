@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include "my_list.h"
+
 uint is_same(void *a, void *b)
 {
   char *ta = (char *)a;
@@ -9,6 +10,16 @@ uint is_same(void *a, void *b)
     return 1;
   }
   return 0;
+}
+void **op(void *a)
+{
+  void **pa = (void **)calloc(1, sizeof(void *));
+  *pa = a;
+  if (*(char *)*pa == '2')
+  {
+    *(char *)*pa = '-';
+  }
+  return pa;
 }
 int main()
 {
@@ -26,7 +37,7 @@ int main()
       // node_data *temp = list_inv_cpy(list);
       /* code */
     }
-    char A[2] = {' '};
+    char A[2] = {'1'};
     char *pA = A;
     node_data *fid = list_del_val(list, pA, is_same);
     uint len = list_len(list);
@@ -49,7 +60,22 @@ int main()
     void **N = (void **)calloc(1, sizeof(void *));
     N = list_ind(list, 3);
     printf("\nchar is %c\n", *(char *)*N);
+
+    node_data *List = list_itm_op(list, op);
+    len = list_len(List);
+    void **P = (void **)calloc(len, sizeof(void *));
+    list_prt(List, P);
+
+    i = 0;
+    printf("string is ");
+    while (i < len)
+    {
+      char d = *(char *)(*(P + i));
+      printf("%c", d);
+      i++;
+    }
+    printf("\n");
   }
-34
+
   return 0;
 }
