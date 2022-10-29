@@ -38,6 +38,19 @@ node_data *list_cat(node_data *data_list, void *data_next)
   temp->next = data_list;
   return temp;
 }
+node_data *list_que(node_data *data_list, void *data_next, node_data *head)
+{
+  head = data_list;
+  if (data_list->next != NULL)
+  {
+    printf("ERROR!CANNOT insert quene item into stack!");
+    return NULL;
+  }
+  node_data *temp = (node_data *)malloc(sizeof(node_data));
+  temp->val = data_next;
+  data_list->next = temp;
+  return temp;
+}
 void list_out(node_data *data_list, void *out_val)
 {
   out_val = data_list->val;
@@ -340,6 +353,7 @@ node_data *list_del_val(node_data *data_list, void *val, uint (*comp)(void *, vo
   free(temp_now);
   return list_inv_cpy(temp_list);
 }
+/*以下为专用函数了*/
 node_data *list_itm_op(node_data *data_list, void **(*op)(void *))
 {
   node_data *temp = (node_data *)malloc(sizeof(node_data));
@@ -353,42 +367,44 @@ node_data *list_itm_op(node_data *data_list, void **(*op)(void *))
   free(temp);
   return data_list;
 }
-void node_match(node_data *data_list, node_data *top, char *val)
+uint lists_len_min(node_data *data_list_a, node_data *data_list_b)
 {
-  //返回值就是top，即当前最外层的子链
-  if (*val == '(')
+  node_data *temp_a = (node_data *)malloc(sizeof(node_data));
+  node_data *temp_b = (node_data *)malloc(sizeof(node_data));
+  temp_a = data_list_a;
+  temp_b = data_list_b;
+  uint len = 0;
+  while (temp_a->next != NULL && temp_b->next != NULL)
   {
-    top = list_new();
+    len++;
+    temp_a = temp_a->next;
+    temp_b = temp_b->next;
   }
-  else if (*val == ')')
-  {
-    data_list = list_cat(data_list, top);
-    top = data_list;
-  }
-  else if (is_valid_char(*val))
-  {
-    top = list_cat(top, val);
-  }
-  else
-  {
-    printf("ERROR!There is INVALID character in input serials.");
-    top = NULL;
-  }
+  temp_a = NULL;
+  temp_b = NULL;
+  free(temp_a);
+  free(temp_b);
+  return len;
 }
-node_data *list_get_std()
+void **lists_itm_op(node_data *data_list_a, node_data *data_list_b, void **(*op)(void *, void *))
 {
-  //目前未考虑动态过程，仅能实现一次性输入命令，全部绘制结果
-  char *char_temp = (char *)malloc(sizeof(char));
-  while ((*char_temp = getchar()) != EOF)
+  node_data *temp_a = (node_data *)malloc(sizeof(node_data));
+  node_data *temp_b = (node_data *)malloc(sizeof(node_data));
+  temp_a = data_list_a;
+  temp_b = data_list_b;
+  uint len = lists_len_min(data_list_a, data_list_b);
+  uint i = 0;
+  void **result_list = malloc(len * sizeof(void *));
+  while (i < len)
   {
-    node_data *raw_list = list_new();
-    node_data *top = NULL;
-    node_match(raw_list, top, char_temp);
-    char_temp = (char *)malloc(sizeof(char));
-    while ((*char_temp = getchar()) != '\n')
-    {
-      node_match(raw_list, top, char_temp);
-      char_temp = (char *)malloc(sizeof(char));
-    }
+    result_list = *op(temp_a->val, temp_b->val);
+    temp_a = temp_a->next;
+    temp_b = temp_b->next;
+    i++;
   }
+  temp_a = NULL;
+  temp_b = NULL;
+  free(temp_a);
+  free(temp_b);
+  return result_list;
 }

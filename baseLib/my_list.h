@@ -10,6 +10,8 @@ node_data *list_new();
 node_data *list_new_val(void *val);
 //压栈
 node_data *list_cat(node_data *data_list, void *data_next);
+//入队
+node_data *list_que(node_data *data_list, void *data_next);
 /*
  * 弹出最上层的一个元素，可以为任意类型
  * 使用方法：
@@ -57,12 +59,8 @@ void **list_nod(node_data *node);
 node_data *list_sub(node_data *data_list, uint ind, uint len);
 //链表中查找某一元素并删除包含该元素的全部节点
 node_data *list_del_val(node_data *data_list, void *val, uint (*comp)(void *, void *));
-//链表中按规定值分割，得到一个复合链表，既元素也是链表的链表
-node_data *list_clp(node_data *data_list, uint (*rule)(void *, void *));
-//输入括号匹配（一边接收输入一边就完成了括号匹配），得到一个非常复杂的嵌套链表
-node_data *list_get_std();
-//从文件中得到输入
-node_data *list_get_file(char *file_path);
+//两个链表，取同样长度的前面元素，按元素遍历运算，便于定义链表比较等函数
+void **lists_itm_op(node_data *data_list_a, node_data *data_list_b, void **(*op)(void *, void *));
 //按元素遍历运算（便于将来的大小写匹配和汉字匹配等）
 node_data *list_itm_op(node_data *data_list, void **(*op)(void *));
 //特别地，从字符型链表返回一个int型数值
