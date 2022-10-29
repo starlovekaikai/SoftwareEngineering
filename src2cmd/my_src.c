@@ -6,7 +6,7 @@
 #endif
 int lists_cmp(node_data *data_list_a, node_data *data_list_b)
 {
-  
+
 }
 //按括号匹配输入值
 void node_match(node_data *data_list, node_data *top, char *val)
@@ -15,6 +15,7 @@ void node_match(node_data *data_list, node_data *top, char *val)
   if (*val == '(')
   {
     top = list_new();
+    
   }
   else if (top != NULL && *val == ')')
   {
