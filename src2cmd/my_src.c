@@ -1,12 +1,43 @@
 #include "my_ctype.h"
 #include "my_list.h"
+#include "my_math.h"
 #include <malloc.h>
 #ifndef NULL
 #define NULL ((void *)0)
 #endif
-int lists_cmp(node_data *data_list_a, node_data *data_list_b)
+//按字符类型比较
+void **char_comp(void *a, void *b)
 {
-
+  void **temp = (void **)malloc(sizeof(void *));
+  if (*(char *)a == *(char *)b)
+  {
+    *(uint *)*temp = 0;
+  }
+  else
+  {
+    *(uint *)*temp = 1;
+  }
+  return temp;
+}
+uint lists_cmp(node_data *data_list_a, node_data *data_list_b, void **(*op)(void *, void *))
+{
+  uint len = lists_len_min(data_list_a, data_list_b);
+  void **result_list = (void **)malloc(len * sizeof(void *));
+  result_list = lists_itm_op(data_list_a, data_list_b, op, len);
+  uint i = 0, temp = 0;
+  while (i < len)
+  {
+    temp += *(uint *)*(result_list + i);
+  }
+  return temp;
+}
+uint list_char_cmp(node_data *data_list_a, node_data *data_list_b)
+{
+  return lists_cmp(data_list_a, data_list_b, char_comp);
+}
+point *pnt_from_char_list(node_data *data_list){
+  //包括格式化：去除空格，
+  //
 }
 //按括号匹配输入值
 void node_match(node_data *data_list, node_data *top, char *val)
@@ -15,7 +46,6 @@ void node_match(node_data *data_list, node_data *top, char *val)
   if (*val == '(')
   {
     top = list_new();
-    
   }
   else if (top != NULL && *val == ')')
   {
@@ -40,14 +70,4 @@ void node_match(node_data *data_list, node_data *top, char *val)
 char *list_get_std(uint *char_out)
 {
   //目前未考虑动态过程，仅能实现一次性输入命令，全部绘制结果
-  char *temp = (char *)malloc(sizeof(char));
-  if ((temp = getchar()) != '\n')
-  {
-    *char_out = temp;
-    return 1;
-  }
-  else
-  {
-    return 0;
-  }
 }

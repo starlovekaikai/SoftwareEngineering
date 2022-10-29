@@ -58,7 +58,7 @@ int main()
     printf("\nint is %f", float_from_char_list(sub_list));
     // free(M);
     void **N = (void **)calloc(1, sizeof(void *));
-    N = list_ind(list, 3);
+    N = list_ind(fid, 3);
     printf("\nchar is %c\n", *(char *)*N);
 
     node_data *List = list_itm_op(list, op);

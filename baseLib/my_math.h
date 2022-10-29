@@ -13,18 +13,19 @@ typedef struct ui_point
   int y_val;
 } ui_point;
 //用户界面坐标下的点，坐标值的单位不是像素。
-typedef struct user_point
-{
-  int x_val;
-  int y_val;
-} user_point;
-//向量
 typedef struct vector
 {
   //两个坐标轴上的分量component
   float x_com;
   float y_com;
 } vector;
+typedef struct dim_2_data
+{
+  void *x_val;
+  void *y_val;
+} dim_2_data;
+typedef dim_2_data point;
+typedef dim_2_data vector;
 //存放全部形状的数据
 typedef struct shape
 {
@@ -32,7 +33,7 @@ typedef struct shape
   ui_point point;
   //某一形状需要的一个向量数据，可以是单位向量也可以不是
   vector vec;
-  /* 
+  /*
    * 某一形状需要的其他的一些数据，类型待定，可以是标量数据，如半径、长度或者其他什么的，也可以是矢量数据，
    * 使用的不完全类型定义以备用。
    * 强制类型转化后可以存储相应的数据，例子见直线方程。
@@ -60,4 +61,3 @@ int polygon_equ(shape polygon, int x_val);
 //求坐标系的旋转变换
 //求坐标系的平移变换
 //求坐标系的伸缩变换
-

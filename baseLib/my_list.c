@@ -38,9 +38,8 @@ node_data *list_cat(node_data *data_list, void *data_next)
   temp->next = data_list;
   return temp;
 }
-node_data *list_que(node_data *data_list, void *data_next, node_data *head)
+node_data *list_que(node_data *data_list, void *data_next)
 {
-  head = data_list;
   if (data_list->next != NULL)
   {
     printf("ERROR!CANNOT insert quene item into stack!");
@@ -386,18 +385,17 @@ uint lists_len_min(node_data *data_list_a, node_data *data_list_b)
   free(temp_b);
   return len;
 }
-void **lists_itm_op(node_data *data_list_a, node_data *data_list_b, void **(*op)(void *, void *))
+void **lists_itm_op(node_data *data_list_a, node_data *data_list_b, void **(*op)(void *, void *),uint len)
 {
   node_data *temp_a = (node_data *)malloc(sizeof(node_data));
   node_data *temp_b = (node_data *)malloc(sizeof(node_data));
   temp_a = data_list_a;
   temp_b = data_list_b;
-  uint len = lists_len_min(data_list_a, data_list_b);
   uint i = 0;
-  void **result_list = malloc(len * sizeof(void *));
+  void **result_list = (void **)malloc(len * sizeof(void *));
   while (i < len)
   {
-    result_list = *op(temp_a->val, temp_b->val);
+    *(result_list+i) = *op(temp_a->val, temp_b->val);
     temp_a = temp_a->next;
     temp_b = temp_b->next;
     i++;
@@ -407,4 +405,7 @@ void **lists_itm_op(node_data *data_list_a, node_data *data_list_b, void **(*op)
   free(temp_a);
   free(temp_b);
   return result_list;
+}
+node_data *list_del_bil(node_data *data_list, uint (*comp)(void *)){
+  
 }
