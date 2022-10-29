@@ -19,21 +19,21 @@ void node_free_innate(node_data *node)
 }
 node_data *list_new()
 {
-  node_data *temp = (node_data *)calloc(1, sizeof(node_data));
+  node_data *temp = (node_data *)malloc(sizeof(node_data));
   temp->next = NULL;
   temp->val = NULL;
   return temp;
 }
 node_data *list_new_val(void *val)
 {
-  node_data *temp = (node_data *)calloc(1, sizeof(node_data));
+  node_data *temp = (node_data *)malloc(sizeof(node_data));
   temp->next = NULL;
   temp->val = val;
   return temp;
 }
 node_data *list_cat(node_data *data_list, void *data_next)
 {
-  node_data *temp = (node_data *)calloc(1, sizeof(node_data));
+  node_data *temp = (node_data *)malloc(sizeof(node_data));
   temp->val = data_next;
   temp->next = data_list;
   return temp;
@@ -46,7 +46,7 @@ void list_out(node_data *data_list, void *out_val)
 
 void list_del_innate(node_data *data_list)
 {
-  node_data *temp = (node_data *)calloc(1, sizeof(node_data));
+  node_data *temp = (node_data *)malloc(sizeof(node_data));
   temp = NULL;
   while (data_list->next != NULL)
   {
@@ -60,7 +60,7 @@ void list_del_innate(node_data *data_list)
 }
 void list_del_usr(node_data *data_list)
 {
-  node_data *temp = (node_data *)calloc(1, sizeof(node_data));
+  node_data *temp = (node_data *)malloc(sizeof(node_data));
   temp = NULL;
   while (data_list->next != NULL)
   {
@@ -76,7 +76,7 @@ void list_del_usr(node_data *data_list)
 uint list_len(node_data *data_list)
 {
   uint iter = 0;
-  node_data *temp = (node_data *)calloc(1, sizeof(node_data));
+  node_data *temp = (node_data *)malloc(sizeof(node_data));
   temp = data_list;
   if (temp == NULL)
   {
@@ -144,9 +144,9 @@ node_data *list_cpy(node_data *data_list)
 void list_prt(node_data *data_list, void **buff)
 {
   uint i = 0;
-  node_data *temp = (node_data *)calloc(1, sizeof(node_data));
+  node_data *temp = (node_data *)malloc(sizeof(node_data));
   temp = list_inv_cpy(data_list);
-  node_data *stor = (node_data *)calloc(1, sizeof(node_data));
+  node_data *stor = (node_data *)malloc(sizeof(node_data));
   stor = temp;
   while (temp->next != NULL)
   {
@@ -161,7 +161,7 @@ void list_prt(node_data *data_list, void **buff)
 void **list_ind(node_data *data_list, uint ind)
 {
   uint iter = 0;
-  void **temp = (void **)calloc(1, sizeof(void *));
+  void **temp = (void **)malloc(sizeof(void *));
   node_data *data_inv = list_inv_cpy(data_list);
   while (iter != ind)
   {
@@ -185,7 +185,7 @@ void **list_ind(node_data *data_list, uint ind)
 }
 void **list_nod(node_data *node)
 {
-  void **temp = (void **)calloc(1, sizeof(void *));
+  void **temp = (void **)malloc(sizeof(void *));
   *temp = node->val;
   return temp;
 }
@@ -223,7 +223,7 @@ node_data *list_sub(node_data *data_list, uint ind, uint len)
 int int_from_char_list(node_data *data_list)
 {
   int temp = 0, sign = 1;
-  node_data *temp_list = (node_data *)calloc(1, sizeof(node_data));
+  node_data *temp_list = (node_data *)malloc(sizeof(node_data));
   temp_list = data_list;
   char temp_char = *(char *)temp_list->val;
   if (temp_char == '-')
@@ -253,7 +253,7 @@ int int_from_char_list(node_data *data_list)
 float float_from_char_list(node_data *data_list)
 {
   float temp_int = 0, temp_dec = 0, sign = 1.0;
-  node_data *temp_list = (node_data *)calloc(1, sizeof(node_data));
+  node_data *temp_list = (node_data *)malloc(sizeof(node_data));
   node_data *fract_list = list_new();
   temp_list = data_list;
   char temp_char = *(char *)temp_list->val;
@@ -307,7 +307,7 @@ float float_from_char_list(node_data *data_list)
 node_data *list_del_val(node_data *data_list, void *val, uint (*comp)(void *, void *))
 {
   node_data *temp_now = list_inv_cpy(data_list);
-  node_data *temp_list = (node_data *)calloc(1, sizeof(node_data));
+  node_data *temp_list = (node_data *)malloc(sizeof(node_data));
   temp_list = temp_now;
   node_data *temp_pre = list_new();
   uint head_flag = 0;
@@ -342,7 +342,7 @@ node_data *list_del_val(node_data *data_list, void *val, uint (*comp)(void *, vo
 }
 node_data *list_itm_op(node_data *data_list, void **(*op)(void *))
 {
-  node_data *temp = (node_data *)calloc(1, sizeof(node_data));
+  node_data *temp = (node_data *)malloc(sizeof(node_data));
   temp = data_list;
   while (temp->next != NULL)
   {
@@ -353,6 +353,42 @@ node_data *list_itm_op(node_data *data_list, void **(*op)(void *))
   free(temp);
   return data_list;
 }
-node_data *list_get_std(){
-
+void node_match(node_data *data_list, node_data *top, char *val)
+{
+  //返回值就是top，即当前最外层的子链
+  if (*val == '(')
+  {
+    top = list_new();
+  }
+  else if (*val == ')')
+  {
+    data_list = list_cat(data_list, top);
+    top = data_list;
+  }
+  else if (is_valid_char(*val))
+  {
+    top = list_cat(top, val);
+  }
+  else
+  {
+    printf("ERROR!There is INVALID character in input serials.");
+    top = NULL;
+  }
+}
+node_data *list_get_std()
+{
+  //目前未考虑动态过程，仅能实现一次性输入命令，全部绘制结果
+  char *char_temp = (char *)malloc(sizeof(char));
+  while ((*char_temp = getchar()) != EOF)
+  {
+    node_data *raw_list = list_new();
+    node_data *top = NULL;
+    node_match(raw_list, top, char_temp);
+    char_temp = (char *)malloc(sizeof(char));
+    while ((*char_temp = getchar()) != '\n')
+    {
+      node_match(raw_list, top, char_temp);
+      char_temp = (char *)malloc(sizeof(char));
+    }
+  }
 }

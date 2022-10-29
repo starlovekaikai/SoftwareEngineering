@@ -72,7 +72,7 @@ char lower_2_upper(char c)
 
 short is_common_ab(char c)
 {
-  if (c == ',' || c == ':' || c == '(' || c == ')' || c == '.'||c == '-'||c == '\'')
+  if (c == ',' || c == ':' || c == '(' || c == ')' || c == '.' || c == '-' || c == '\'' || c == ' ' || c == '\t'||c=='+')
   {
     return 1;
   }
