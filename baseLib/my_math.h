@@ -13,12 +13,6 @@ typedef struct ui_point
   int y_val;
 } ui_point;
 //用户界面坐标下的点，坐标值的单位不是像素。
-typedef struct vector
-{
-  //两个坐标轴上的分量component
-  float x_com;
-  float y_com;
-} vector;
 typedef struct dim_2_data
 {
   void *x_val;

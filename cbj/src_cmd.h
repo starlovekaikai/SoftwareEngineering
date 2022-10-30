@@ -3,7 +3,7 @@
  *from commandline or from a specific command file.
  *
  */
-#if include _SRC_COMMAND_
+#ifndef _SRC_COMMAND_
 #define _SRC_COMMAND_
 #endif
 // This lets the driver code override the image size if it needs to. Make sure
@@ -47,7 +47,7 @@ typedef struct cmd_node
  */
 typedef struct data_buff
 {
-  void* val;
+  void *val;
   struct data_buff *next;
 } data_buff;
 /*
@@ -62,10 +62,10 @@ typedef enum cmd_type
   CIRCLE,
   RECTANGLE,
   POLYGON,
-  GROUP_TYPE,//组合体，
-  INVISIBLE//不可见的，用于功能控制
+  GROUP_TYPE, //组合体，
+  INVISIBLE   //不可见的，用于功能控制
 } cmd_type;
-cmd_node *new_cmd_node(char cmd[10], data_buff buf);
+cmd_node *new_cmd_node(char cmd[10], data_buff *buf);
 
 //从文件读取命令的，生成命令名和命令数据
 cmd_node *load_cmd_file(char *filename);

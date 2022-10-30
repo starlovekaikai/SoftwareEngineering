@@ -1,5 +1,5 @@
-#include <stdio.h>
 
+#include "my_ctype.h"
 short is_number(char c)
 {
   char temp = c;

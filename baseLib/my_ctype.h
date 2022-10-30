@@ -1,6 +1,6 @@
 #ifndef _my_ctype_new_H_INCLUDE_
 #define  _my_ctype_new_H_INCLUDE_
-#include "my_ctype.c"
+
 /*
 IsNumber用于判断字符是否为数字字符
 input：字符c

@@ -1,7 +1,10 @@
 #include "my_ctype.h"
 #include "my_list.h"
 #include "my_math.h"
+#include <stdio.h>
 #include <malloc.h>
+#include <assert.h>
+#include "list_op.h"
 #ifndef NULL
 #define NULL ((void *)0)
 #endif
@@ -21,7 +24,7 @@ void **char_comp(void *a, void *b)
 }
 uint lists_cmp(node_data *data_list_a, node_data *data_list_b, void **(*op)(void *, void *))
 {
-  assert(data_list_a != NULL &&data_list_b ! = NULL);
+  assert(data_list_a != NULL && data_list_b != NULL);
   uint len = lists_len_min(data_list_a, data_list_b);
   void **result_list = (void **)malloc(len * sizeof(void *));
   result_list = lists_itm_op(data_list_a, data_list_b, op, len);
@@ -34,7 +37,7 @@ uint lists_cmp(node_data *data_list_a, node_data *data_list_b, void **(*op)(void
 }
 uint list_char_cmp(node_data *data_list_a, node_data *data_list_b)
 {
-  assert(data_list_a != NULL &&data_list_b ! = NULL);
+  assert(data_list_a != NULL && data_list_b != NULL);
   return lists_cmp(data_list_a, data_list_b, char_comp);
 }
 point *pnt_from_char_list(node_data *data_list)

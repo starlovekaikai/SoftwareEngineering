@@ -1,4 +1,6 @@
 #include "my_math.h"
+#include <math.h>
+#include <malloc.h>
 /*
  * This function uses a ui_point, a length value
  * and a unit vector to form a line eqution and
@@ -20,13 +22,13 @@ int line_equ(shape line, int x_val)
   float dx, dy;
   dx = x_val - point.x_val;
   // zero是非常小的一个数，防止除数为0的
-  if (abs(uni_vec.x_com) < ZERO)
+  if (abs(*(float *)uni_vec.x_val) < ZERO)
   {
     dy = 0;
   }
   else
   {
-    dy = dx * uni_vec.y_com / uni_vec.x_com;
+    dy = dx * (*(float *)uni_vec.y_val) / (*(float *)uni_vec.x_val);
   }
   return (int)point.y_val + dy;
 }
@@ -73,7 +75,3 @@ int circle_equ(shape circle, int x_val)
  *             point
  */
 //只考虑为y值为正的情况，为负另一半取反就可以生成了
-int polygon_equ(ui_point center, int radius, vector uni_vec, int x_val)
-{
-  float dx, dy;
-}
