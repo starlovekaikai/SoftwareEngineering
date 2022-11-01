@@ -2,127 +2,117 @@
 #include "my_ctype.h"
 #include <malloc.h>
 #include <assert.h>
-#include "my_list.h"
 #include <stdio.h>
 #include "list_op.h"
-node_data *list_itm_op(node_data *data_list, void **(*op)(void *))
+
+p_list_v list_itm_op(p_list_v data_list, void (*op)(void *, uint))
 {
   assert(data_list != NULL);
+  uint len = list_len(data_list);
+  p_list_v temp_list = list_data_cpy(data_list);
   //这个函数要改变原序列对应的内存
-  node_data *temp_list = list_inv_cpy(data_list);
-  node_data *temp = (node_data *)malloc(sizeof(node_data));
-  temp = temp_list;
-  while (temp->next != NULL)
+  p_list_v temp = temp_list;
+  while (list_emp(temp) == _NOT_EMPTY_)
   {
-    temp->val = *op(temp->val);
-    temp = temp->next;
+    op(node_val(temp), node_size(temp));
+    temp = node_next(temp);
   }
-  temp = NULL;
-  free(temp);
-  return list_inv_cpy(temp_list);
+  return temp_list;
 }
-uint lists_len_min(node_data *data_list_a, node_data *data_list_b)
+uint lists_len_min(p_list_c data_list_a, p_list_c data_list_b)
 {
   assert(data_list_a != NULL && data_list_b != NULL);
-  node_data *temp_a = (node_data *)malloc(sizeof(node_data));
-  node_data *temp_b = (node_data *)malloc(sizeof(node_data));
-  temp_a = data_list_a;
-  temp_b = data_list_b;
+  p_list_v temp_a = list_inv_cpy(data_list_a);
+  p_list_v temp_b = list_inv_cpy(data_list_b);
   uint len = 0;
-  while (temp_a->next != NULL && temp_b->next != NULL)
+  while (list_emp(temp_a) == _NOT_EMPTY_ && list_emp(temp_b) == _NOT_EMPTY_)
   {
     len++;
-    temp_a = temp_a->next;
-    temp_b = temp_b->next;
+    temp_a = node_next(temp_a);
+    temp_b = node_next(temp_b);
   }
-  temp_a = NULL;
-  temp_b = NULL;
-  free(temp_a);
-  free(temp_b);
+  list_del_innate(temp_a);
+  list_del_innate(temp_b);
   return len;
 }
-void **lists_itm_op(node_data *data_list_a, node_data *data_list_b, void **(*op)(void *, void *), uint len)
+p_list_v lists_itm_op(p_list_v data_list_a, p_list_v data_list_b, void *(*op)(void *, void *, uint))
 {
-  assert(data_list_a != NULL && data_list_b != NULL);
-  node_data *temp_a = (node_data *)malloc(sizeof(node_data));
-  node_data *temp_b = (node_data *)malloc(sizeof(node_data));
-  temp_a = data_list_a;
-  temp_b = data_list_b;
+  assert(data_list_a != NULL && data_list_b != NULL && node_size(data_list_a) == node_size(data_list_b));
+  p_list_v temp_a = list_inv_cpy(data_list_a);
+  p_list_v temp_b = list_inv_cpy(data_list_b);
   uint i = 0;
-  void **result_list = (void **)malloc(len * sizeof(void *));
-  while (i < len)
+  p_list_v result_list = list_new_blank();
+  while (list_emp(temp_a) == _NOT_EMPTY_ && list_emp(temp_b) == _NOT_EMPTY_)
   {
-    *(result_list + i) = *op(temp_a->val, temp_b->val);
-    temp_a = temp_a->next;
-    temp_b = temp_b->next;
+    assert(sizeof(node_val(temp_a)) == sizeof(node_val(temp_a)));
+    result_list = list_cat(result_list, op(node_val(temp_a), node_val(temp_b), node_size(temp_a)), node_size(temp_a));
+    temp_a = node_next(temp_a);
+    temp_b = node_next(temp_b);
     i++;
   }
-  temp_a = NULL;
-  temp_b = NULL;
-  free(temp_a);
-  free(temp_b);
+  if (list_emp(temp_a) == _NOT_EMPTY_ || list_emp(temp_b) == _NOT_EMPTY_)
+  {
+    printf("Warning! The two lists are not in the same size!\nSame size sublists are worked out only.");
+  }
+  list_del_innate(temp_a);
+  list_del_innate(temp_b);
   return result_list;
 }
-node_data *list_del_bil(node_data *data_list, uint (*cond)(void *))
+p_list_v list_del_bil(p_list_v data_list, uint (*cond)(void *, uint))
 {
   assert(data_list != NULL);
-  node_data *temp_list = list_inv_cpy(data_list);
-  node_data *temp_now = (node_data *)malloc(sizeof(node_data));
-  temp_now = temp_list;
+  uint len = list_len(data_list);
+  p_list_v temp_cpy = list_data_cpy(data_list);
+  p_list_v temp_now = temp_cpy;
   //清空尾部的无效字符
-  while (cond(temp_list->val))
+  while (cond(node_val(temp_cpy), node_size(temp_cpy)))
   {
-    temp_now = temp_list->next;
-    free(temp_list);
-    temp_list = temp_list->next;
+    temp_cpy = node_next(temp_now);
+    list_out(temp_now);
+    temp_now = temp_cpy;
+    temp_now = node_next(temp_now);
   }
-  temp_list = list_inv_cpy(temp_now);
-  temp_now = temp_list;
+  temp_cpy = list_inv_cpy(temp_now);
+  temp_now = temp_cpy;
   //清空头部的无效字符
-  while (cond(temp_list->val))
+  while (cond(node_val(temp_cpy), node_size(temp_cpy)))
   {
-    temp_now = temp_list->next;
-    free(temp_list);
-    temp_list = temp_list->next;
+    temp_cpy = node_next(temp_now);
+    list_out(temp_now);
+    temp_now = temp_cpy;
+    temp_now = node_next(temp_now);
   }
-  temp_list = NULL;
-  free(temp_list);
-  return temp_now;
+  return list_inv_cpy(temp_cpy);
 }
-node_data *list_del_val(node_data *data_list, void *val, uint (*comp)(void *, void *))
+p_list_v list_del_val(p_list_v data_list, uint (*cond)(void *, uint))
 {
-  assert(data_list != NULL);
-  node_data *temp_now = list_inv_cpy(data_list);
-  node_data *temp_list = (node_data *)malloc(sizeof(node_data));
-  temp_list = temp_now;
-  node_data *temp_pre = list_new();
+  assert(data_list != NULL && cond != NULL);
+  p_list_v temp_cpy = list_data_cpy(data_list);
+  p_list_v temp_now = temp_cpy;
+  p_list_v temp_pre = temp_now;
   uint head_flag = 0;
-  while (temp_now->next != NULL)
+  while (list_emp(temp_now) == _NOT_EMPTY_)
   {
-    if (head_flag == 0 && comp(val, temp_now->val))
+    if (head_flag == 0 && cond(node_val(temp_now), node_size(temp_now)))
     {
-      temp_list = temp_now->next;
-      temp_pre->next = temp_now->next;
-      free(temp_now);
-      temp_now = temp_pre->next;
+      temp_cpy = node_next(temp_now);
+      list_out(temp_now);
+      temp_now = temp_cpy;
+      temp_pre = temp_now;
+      temp_now = node_next(temp_now);
     }
-    else if (comp(val, temp_now->val))
+    else if (cond(node_val(temp_now), node_size(temp_now)))
     {
       head_flag = 1;
-      temp_pre->next = temp_now->next;
-      free(temp_now);
-      temp_now = temp_pre->next;
+      node_del(temp_pre, temp_now);
+      temp_now = node_next(temp_pre);
     }
     else
     {
       head_flag = 1;
       temp_pre = temp_now;
-      temp_now = temp_now->next;
+      temp_now = node_next(temp_pre);
     }
   }
-  temp_pre = NULL;
-  free(temp_pre);
-  temp_now = NULL;
-  free(temp_now);
-  return list_inv_cpy(temp_list);
+  return list_inv_cpy(temp_cpy);
 }

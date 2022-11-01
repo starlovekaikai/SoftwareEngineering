@@ -56,12 +56,12 @@ void node_match(node_data *data_list, node_data *top, char *val)
   }
   else if (top != NULL && *val == ')')
   {
-    data_list = list_cat(data_list, top);
+    data_list = list_cat(data_list, top,sizeof(char));
     top = data_list;
   }
   else if (top != NULL && is_valid_char(*val))
   {
-    top = list_cat(top, val);
+    top = list_cat(top, val,sizeof(char));
   }
   else if (top != NULL && is_valid_char(*val) != 1)
   {
