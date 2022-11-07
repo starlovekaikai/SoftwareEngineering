@@ -1,5 +1,6 @@
 #include "my_shapes.h"
 #include "my_list.h"
+#include <assert.h>
 typedef struct point
 {
   float x_val;
@@ -17,6 +18,11 @@ typedef struct rectangle
 } rect;
 typedef struct polygon
 {
-p_list_c p_apex_list;
-
+  uint num_apex;
+  p_list_c p_apex_list;
 } poly;
+typedef struct group
+{
+  uint num_shape;
+  p_list_c p_shape_list;
+} gtoup;
