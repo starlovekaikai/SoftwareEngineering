@@ -1,5 +1,5 @@
-#ifndef cJSON__h
-#define cJSON__h
+#ifndef _MY_SHAPES_
+#define _MY_SHAPES_
 
 #ifdef __cplusplus
 extern "C"
