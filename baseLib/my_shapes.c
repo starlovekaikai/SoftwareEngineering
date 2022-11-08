@@ -6,17 +6,17 @@ typedef struct point
   float x_val;
   float y_val;
 } point;
-typedef struct circle
+typedef struct circ
 {
   point center;
   float radius;
 } circ;
-typedef struct rectangle
+typedef struct rect
 {
   point left_up;
   point right_down;
 } rect;
-typedef struct polygon
+typedef struct poly
 {
   uint num_apex;
   p_list_c p_apex_list;

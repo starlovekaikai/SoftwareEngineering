@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "my_shapes.h"
 /*总结构为：struct node 包含union和两个前后向指针，union中的struct为需要更改的内容*/
 struct mystruct1
 {
@@ -17,6 +18,13 @@ union myunion
   struct mystruct2 name2;
   int size; //每次更改union内的元素，均应更改size大小
 };
+typedef union shapes
+{
+  p_circ_v p_circ;
+  p_rect_v p_rect;
+  p_poly_v p_poly;
+  int size; //每次更改union内的元素，均应更改size大小
+}shapes;
 struct node
 {
   union myunion val; //指向union
