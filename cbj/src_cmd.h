@@ -3,10 +3,7 @@
  *from commandline or from a specific command file.
  *
  */
-#include "wrapper.h"
-#include <stdio.h>
-#include <stdlib.h>
-#if include _SRC_COMMAND_
+#ifndef _SRC_COMMAND_
 #define _SRC_COMMAND_
 #endif
 // This lets the driver code override the image size if it needs to. Make sure
@@ -18,7 +15,6 @@
 // The biggest size of certain input command with its argments.
 #define MAX_CMD_LEN 40
 /*---------------------------------------------------------------------------*/
-#include "my_math.h"
 /*
  * This struct contains one node of the linked list, which represents a single
  * command. It's field should include:
@@ -51,7 +47,7 @@ typedef struct cmd_node
  */
 typedef struct data_buff
 {
-  int val;
+  void *val;
   struct data_buff *next;
 } data_buff;
 /*
@@ -66,11 +62,10 @@ typedef enum cmd_type
   CIRCLE,
   RECTANGLE,
   POLYGON,
-  GROUP_TYPE,//组合体，
-  INVISIBLE//不可见的，用于功能控制
+  GROUP_TYPE, //组合体，
+  INVISIBLE   //不可见的，用于功能控制
 } cmd_type;
-
-cmd_node *new_cmd_node(char cmd[10], data_buff buf);
+cmd_node *new_cmd_node(char cmd[10], data_buff *buf);
 
 //从文件读取命令的，生成命令名和命令数据
 cmd_node *load_cmd_file(char *filename);
@@ -85,3 +80,7 @@ cmd_type enum_cmd_name(char cmd[10]);
 void del_cmd_list(cmd_node *cmd_list);
 //新建一个命令列表
 cmd_node *new_cmd_list();
+//将字符串按命令格式标准化，得到命令枚举种类和命令数据
+cmd_type gstr_normalize(PGSTRC raw_gstr, PGSTRV norm_data);
+//判定一个命令是否是有效的
+cmd_type type_of_cmd(PGSTRC cmd);

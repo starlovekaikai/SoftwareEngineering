@@ -1,5 +1,20 @@
 #include "src_cmd.h"
 #include "wrapper.h"
+#include "my_math.h"
+#include <stdlib.h>
+#include <stdio.h>
+#include "my_ctype.h"
+#ifndef SAME
+#define LONGER_BUT_LATTER 4
+#define LONGER_AND_SAME 3
+#define LONGER_BUT_FOREM 2
+#define LATTER 1
+#define SAME 0
+#define FOREM -1
+#define SHORTER_BUT_LATTER -2
+#define SHORTER_AND_SAME -3
+#define SHORTER_BUT_FOREM -4
+#endif
 /**
  * This function allocates a new cmd_node struct and initializes it's values
  * based on the input paramaters given. The next pointer is always
@@ -112,26 +127,164 @@ PGSTRV read_cmd_file(file_name) // 得到gstr类型的一个变量指针
   FILE *file = fopen(file_name, "r");
   while (fgets(buffer, MAX_CMD_LEN, file) != NULL)
   { //一行一行地读取，直到读取到文件末尾
-    PGSTRV = NewGSTR_ByStr(buffer);
+    PGSTRV temp_gstr = NewGSTR_ByStr(buffer);
     /*
      *
      * 这里将对读取得到的gstr进行处理，得到一个命令数据体，包含全部规范化数据的
      * 规范化是指，对于不同格式表达的同一形状，如用半径和用直径表达的圆，都应当对应于同一个数据形式
      * 这里应该进行计算并作初步的转化
      */
+
+    PGSTRV temp_data = NewGSTR_Empty();
+    cmd_type c_t = NOT_CMD;
+    if ((c_t = gstr_normalize(temp_gstr, temp_data)) != NOT_CMD)
+    {
+      //判断括号匹配，如果匹配
+      if (bilat_match(temp_data) != NULL)
+      {
+        //进行数据提取
+      }
+      else
+      {
+        printf("Sorry!The input brace is not MATCHED, please check it carefully.");
+      }
+    }
+    else
+    {
+      printf("Sorry!The input command is not valid, please check it carefully.");
+    }
     //清空内存
     memset(buffer, MAX_CMD_LEN, sizeof(char));
   }
+  free(buffer);
   fclose(file);
-  return head;
+  // return head;
 }
-void gstr_normalize(PGSTRC raw_gstr) //已知是一个gstr字符串，需要转换成一个对应名字枚举变量，对应数据的数据结构体
-{                                    /* 这里是转化的第一步，将命令规范化，
-                                      * 去掉多余的空格、查找命令是否符合要求，去掉行末多余的标点符号
-                                      *
-                                      *
-                                      */
+//括号匹配函数，直接实现逗号分割
+void *bilat_match(PGSTRC data_gstr)
+{
+  int len = GSTRLen(data_gstr);
+  if (GSTRInd(data_gstr, 0) == '(' && GSTRInd(data_gstr, len) == ')')
+  {
+    short begin_ind = 1, end_ind = 0;
+    while (end_ind != len)
+    {
+      data_buff *match = (data_buff *)calloc(1, sizeof(data_buff));
+      *(char *)match->val = '(';
+      match->next = NULL;
+
+      if (GSTRInd(data_gstr, end_ind) == ',')
+      {
+        data_buff *data = (data_buff *)calloc(1, sizeof(data_buff));
+        *(PGSTRV *)(data->val) = GSTRSubStr(data_gstr, begin_ind, end_ind - 1);
+        data->next = data;
+      }
+      if (GSTRInd(data_gstr, end_ind) == '(')
+      {
+        data_buff *temp = (data_buff *)calloc(1, sizeof(data_buff));
+        temp->next = match;
+      }
+      if (GSTRInd(data_gstr, end_ind) == ')')
+      {
+        free(match->next);
+      }
+      end_ind++;
+    }
+  }
+  else
+  {
+    return NULL;
+  }
+}
+//引号匹配函数
+
+//数据翻译函数
+
+//已知是一个gstr字符串，需要转换成一个对应名字枚举变量，对应数据的数据结构体
+cmd_type gstr_normalize(PGSTRC raw_gstr, PGSTRV norm_data)
+{ /*
+   * 这里是转化的第一步，将命令规范化，
+   * 去掉多余的空格、查找命令是否符合要求，去掉行末多余的标点符号
+   * 返回相应的命令枚举值；
+   *
+   */
   PGSTRV temp_gstr = (PGSTRV)calloc(1, sizeof(raw_gstr));
   GSTRCpy(temp_gstr, raw_gstr);
-  
+  int begin_ind = 0;
+  /*
+   * 以下去除掉命令中不合理的空格
+   *
+   */
+  while (begin_ind < GSTRLen(temp_gstr))
+  {
+    if (is_valid_char(GSTRInd(temp_gstr, begin_ind++)))
+    {
+      continue;
+    }
+    else
+    {
+      GSTRDel(temp_gstr, begin_ind, 1);
+    }
+  }
+  /*
+   * 以下用于判定是否是当前已知的命令
+   */
+  int end_ind = GSTRFindChr(temp_gstr, '(');
+  PGSTRV cmd_name = GSTRSubStr(temp_gstr, 0, end_ind);
+  cmd_type ty_cmd = NOT_CMD;
+  if ((ty_cmd = type_of_cmd(cmd_name)) != NOT_CMD)
+  {
+    norm_data = GSTRSubStr(temp_gstr, end_ind, GSTRLen(temp_gstr) - 1);
+    free(temp_gstr);
+    return ty_cmd;
+  }
+  else
+  {
+    free(temp_gstr);
+    return NOT_CMD;
+  }
+}
+short data_match(PGSTRC data)
+{
+}
+cmd_type type_of_cmd(PGSTRC cmd)
+{
+  PGSTRV temp_cmd = NewGSTR_ByStr("point");
+  if (GSTRCmp(temp_cmd, cmd) == SAME)
+  {
+    GSTRDestroy(temp_cmd);
+    return POINT;
+  }
+  temp_cmd = NewGSTR_ByStr("line");
+  if (GSTRCmp(temp_cmd, cmd) == SAME)
+  {
+    GSTRDestroy(temp_cmd);
+    return LINE;
+  }
+  temp_cmd = NewGSTR_ByStr("circle");
+  if (GSTRCmp(temp_cmd, cmd) == SAME)
+  {
+    GSTRDestroy(temp_cmd);
+    return CIRCLE;
+  }
+  temp_cmd = NewGSTR_ByStr("rectan");
+  if (GSTRCmp(temp_cmd, cmd) == SAME)
+  {
+    GSTRDestroy(temp_cmd);
+    return RECTANGLE;
+  }
+  temp_cmd = NewGSTR_ByStr("group");
+  if (GSTRCmp(temp_cmd, cmd) == SAME)
+  {
+    GSTRDestroy(temp_cmd);
+    return GROUP_TYPE;
+  }
+  temp_cmd = NewGSTR_ByStr("function");
+  if (GSTRCmp(temp_cmd, cmd) == SAME)
+  {
+    GSTRDestroy(temp_cmd);
+    return INVISIBLE;
+  }
+  GSTRDestroy(temp_cmd);
+  return NOT_CMD;
 }

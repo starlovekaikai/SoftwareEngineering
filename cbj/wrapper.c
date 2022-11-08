@@ -1,8 +1,21 @@
 #include "wrapper.h"
+#include <stdlib.h>
+#include <string.h>
+#include <assert.h>
 #ifdef WIN32
 #pragma warning(disable : 4996)
 #endif // WIN32
-
+#ifndef SAME
+#define LONGER_BUT_LATTER 4
+#define LONGER_AND_SAME 3
+#define LONGER_BUT_FOREM 2
+#define LATTER 1
+#define SAME 0
+#define FOREM -1
+#define SHORTER_BUT_LATTER -2
+#define SHORTER_AND_SAME -3
+#define SHORTER_BUT_FOREM -4
+#endif
 typedef struct GSTR
 {
   int length;
@@ -78,7 +91,7 @@ void GSTRImport(PGSTRV pthis, const char *src)
     memcpy(pthis->data, src, n);
   }
 }
-void GSTRExport(PGSTRC pthis, char *dst)//需要多一步把末尾置为\0
+void GSTRExport(PGSTRC pthis, char *dst) //需要多一步把末尾置为\0
 {
 #ifdef _DEBUG
   assert(pthis);
@@ -91,9 +104,24 @@ int GSTRLen(PGSTRC s)
 {
   return s->length;
 }
-int GSTRCmp(PGSTRC a, PGSTRC b)//比较不全面，还需要比较length，再使用memcmp比较内存数据
+
+int GSTRCmp(PGSTRC a, PGSTRC b) //比较不全面，还需要比较length，再使用memcmp比较内存数据
 {
-  return strcmp(a->data, b->data);
+  int result;
+  if (a->length > b->length)
+  {
+    result = memcmp(a->data, b->data, b->length * sizeof(char));
+    return LONGER_AND_SAME + result;
+  }
+  else if (a->length < b->length)
+  {
+    result = memcmp(a->data, b->data, a->length * sizeof(char));
+    return SHORTER_AND_SAME + result;
+  }
+  else
+  {
+    return memcmp(a->data, b->data,a->length*sizeof(char));
+  }
 }
 int GSTRFindChr(PGSTRC s, char c)
 {
@@ -192,5 +220,35 @@ void GSTRDel(PGSTRV d, int pos, int len)
     free(d->data);
     d->data = tmp;
     d->length -= len;
+  }
+}
+char GSTRInd(PGSTRV d, int pos)
+{
+  if (pos >= 0 && pos < d->length)
+  {
+    return *(d->data + pos);
+  }
+  else
+  {
+    printf("error!The index is out of range!");
+    return '\0';
+  }
+}
+
+PGSTRV GSTRSubStr(PGSTRC src, int begin, int end)
+{
+  if (begin >= 0 && end < src->length)
+  {
+    int len = end - begin + 1;
+    char *temp = (char *)calloc(len, sizeof(char));
+    memcpy(temp, src->data + begin, len * sizeof(char));
+    PGSTRV gstr_temp = NewGSTR_ByStr(temp);
+    free(temp);
+    return gstr_temp;
+  }
+  else
+  {
+    printf("Error!The index of the sub-string is invalid!");
+    return NULL;
   }
 }
