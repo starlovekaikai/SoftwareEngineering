@@ -1,3 +1,4 @@
+/*by李翔，通用线性表*/
 #include "general_list.h"
 #include "string.h"
 #include <stdlib.h>

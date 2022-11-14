@@ -1,8 +1,9 @@
+/*by陈博非，链表库，用于存放不定大小的数据，如多边形或者组合图形*/ 
 #ifndef _MY_LIST_
 #define _MY_LIST_
 
 #ifdef __cplusplus
-extern "C"
+    extern "C"
 {
 #endif
 #define _IS_EMPTY_ 1

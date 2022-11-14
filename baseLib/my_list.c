@@ -1,3 +1,4 @@
+/*by陈博非，链表库，用于存放不定大小的数据，如多边形或者组合图形*/
 #include <stdlib.h>
 #include "my_ctype.h"
 #include <malloc.h>

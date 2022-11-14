@@ -1,3 +1,4 @@
+/*by牛泽坤，字符处理函数库*/
 #ifndef _my_ctype_new_H_INCLUDE_
 #define  _my_ctype_new_H_INCLUDE_
 

@@ -1,3 +1,4 @@
+/*by李翔，通用线性表*/
 #ifndef _SHAPE_POINTS_
 #define _SHAPE_POINTS_
 

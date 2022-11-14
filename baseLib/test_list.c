@@ -20,11 +20,13 @@ union myunion
 };
 typedef union shapes
 {
-  p_circ_v p_circ;
-  p_rect_v p_rect;
-  p_poly_v p_poly;
+  //p_line;//16
+  p_circ_v p_circ;//12 byte
+  p_rect_v p_rect;//16
+  p_poly_v p_poly;//24 byte
   int size; //每次更改union内的元素，均应更改size大小
 }shapes;
+shapes shape_list[100];
 struct node
 {
   union myunion val; //指向union
@@ -83,8 +85,12 @@ int main()
   dummy_tail.pre = &dummy_head;
   dummy_tail.next = NULL;
   dummy_head.val.size = 0; //这个size用来存放此链表的有效长度，不包含dummy_head和dummy_tail
-
   //使用实例
+  float list_x[500],list_y[500];
+  circ_point_list(shape_list[1].p_circ,  list_x,  list_y);
+  plot(list_x,list_y);
+
+  
   add_union(&dummy_head, &dummy_tail);
   add_union(&dummy_head, &dummy_tail);
   dummy_head.next->val.size = 50;

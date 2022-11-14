@@ -1,4 +1,4 @@
-
+/*by牛泽坤，字符处理函数库*/
 #include "my_ctype.h"
 short is_number(char c)
 {
