@@ -34,13 +34,6 @@ extern "C"
   //读取圆的数据
   float read_circ_radius(p_circ_c circ);
   p_point_v read_circ_center(p_circ_c circ);
-  //生成某一形状的点列表
-  void point_list_new(uint num_point);
-  void point_list_del(p_circ_v raw_list);
-  void point_list_from_circ(p_circ_c raw_circ);
-  void point_list_from_rect(p_circ_c raw_rect);
-  void point_list_from_poly(p_circ_c raw_poly);
-//
 #ifdef __cplusplus
 }
 #endif
