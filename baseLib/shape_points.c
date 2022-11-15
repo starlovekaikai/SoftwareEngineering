@@ -7,10 +7,12 @@
 //点列表由用户定义，假设已经有了
 void circ_point_list(p_circ_c circ, float *list_x, float *list_y)
 {
-  p_point_v cnt = read_circ_center(circ);
-  float rad = read_circ_radius(circ);
-  float cnt_x = read_x_point(cnt);
-  float cnt_y = read_y_point(cnt);
+  p_point_v cnt = new_point();
+  read_circ_center(circ, cnt);
+  float rad;
+  read_circ_radius(circ, &rad);
+  float cnt_x, cnt_y;
+  read_point(cnt, &cnt_x, &cnt_y);
   int iter = 0;
   while (iter < NUM_POINTS)
   {
@@ -20,22 +22,21 @@ void circ_point_list(p_circ_c circ, float *list_x, float *list_y)
 }
 void line_point_list(p_line_c line, float *list_x, float *list_y)
 {
-  p_point_v point_1=new_point();
-  p_point_v point_2=new_point();
+  p_point_v point_1 = new_point();
+  p_point_v point_2 = new_point();
 
-  read_line_point(line,point_1,point_2);
+  read_line_point(line, point_1, point_2);
 
-  float point_1_x = read_x_point(point_1);
-  float point_1_y = read_y_point(point_1);
-
-  float point_2_x = read_x_point(point_2);
-  float point_2_y = read_y_point(point_2);
+  float point_1_x, point_1_y;
+  read_point(point_1, &point_1_x, &point_1_y);
+  float point_2_x, point_2_y;
+  read_point(point_2, &point_2_x, &point_2_y);
 
   int iter = 0;
   while (iter < NUM_POINTS)
   {
-      *(list_x + iter) = point_1_x + (point_2_x-point_1_x)/ NUM_POINTS*iter;
-      *(list_y + iter) = point_1_y + (point_2_y - point_1_y) / NUM_POINTS * iter;
+    *(list_x + iter) = point_1_x + (point_2_x - point_1_x) / NUM_POINTS * iter;
+    *(list_y + iter) = point_1_y + (point_2_y - point_1_y) / NUM_POINTS * iter;
   }
 }
 

@@ -1,4 +1,4 @@
-/**/
+/*by牛泽坤，链表运算库，用于字符串处理*/
 #include <stdlib.h>
 #include "my_ctype.h"
 #include <malloc.h>

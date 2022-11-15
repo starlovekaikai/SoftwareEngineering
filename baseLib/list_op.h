@@ -1,3 +1,4 @@
+/*by牛泽坤，链表运算库，用于字符串处理*/
 #ifndef _LIST_OP_
 #define _LIST_OP_
 #endif
