@@ -7,8 +7,7 @@ extern "C"
 {
 #endif
 void circ_point_list(p_circ_c circ, float *list_x, float *list_y);
-void line_point_list(sdfds ds,dsf dsf,d sd);
-
+void line_point_list(p_line_c line, float* list_x, float* list_y);
 
 
 
