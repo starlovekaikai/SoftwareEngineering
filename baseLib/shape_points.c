@@ -22,9 +22,22 @@ void line_point_list(p_line_c line, float *list_x, float *list_y)
 {
   p_point_v point_1=new_point();
   p_point_v point_2=new_point();
+
   read_line_point(line,point_1,point_2);
+
   float point_1_x = read_x_point(point_1);
   float point_1_y = read_y_point(point_1);
+
+  float point_2_x = read_x_point(point_2);
+  float point_2_y = read_y_point(point_2);
+
+  int iter = 0;
+  while (iter < NUM_POINTS)
+  {
+      *(list_x + iter) = point_1_x + (point_2_x-point_1_x)/ NUM_POINTS*iter;
+      *(list_y + iter) = point_1_y + (point_2_y - point_1_y) / NUM_POINTS * iter;
+  }
 }
+
 void rect_point_list();
 void poly_point_list();
