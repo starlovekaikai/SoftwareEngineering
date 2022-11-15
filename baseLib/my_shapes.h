@@ -31,7 +31,7 @@ extern "C"
   void read_line_point(p_line_c line, p_point_v point_1, p_point_v point_2);
   //读取矩形的数据
   void read_rect_point(p_rect_c rect, p_point_v point_1, p_point_v point_2);
-
+  //读取圆的数据
   float read_circ_radius(p_circ_c circ);
   p_point_v read_circ_center(p_circ_c circ);
   //生成某一形状的点列表
