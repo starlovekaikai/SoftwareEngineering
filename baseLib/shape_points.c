@@ -39,6 +39,6 @@ void line_point_list(p_line_c line, float *list_x, float *list_y)
     *(list_y + iter) = point_1_y + (point_2_y - point_1_y) / NUM_POINTS * iter;
   }
 }
-
+测试一下
 void rect_point_list();
 void poly_point_list();
